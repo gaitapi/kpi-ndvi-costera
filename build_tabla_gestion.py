@@ -4,18 +4,34 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.utils import get_column_letter
 
+# ── Datos principales: NDVI + tendencias ──────────────────────────────────────
 df = pd.read_csv(
     '/home/gaitapi/proyectos/kpi-costa/script para correr en GEE el NDVI de todos los tramos costeros 45 metros/KPI_NDVI_tendencia.csv'
 )
 df['d'] = df['d'].str.strip().str.lower().str.replace('san josé','san jose')
 
+# ── Datos de vegetación (join espacial con Mai 2019 + Borthagaray 2025) ───────
+veg = pd.read_csv('/home/gaitapi/proyectos/kpi-ndvi-costera/data/tramos_veg_join.csv')
+veg = veg[['t','Veg_cat2','Veg_prioridad','Zona_Borthagaray','Conect_Borthagaray']].copy()
+# Limpiar y acortar etiquetas largas de prioridad
+veg['Veg_prioridad'] = veg['Veg_prioridad'].str.replace(
+    'Sitio a restaurar - sin urbanizacion consolidada', 'Restaurar (s/urb)', regex=False
+).str.replace('Sitio a restaurar - urbano', 'Restaurar (urb)', regex=False
+).str.replace('Sitio a restaurar - rural', 'Restaurar (rural)', regex=False
+).str.replace('Sitio a conservar', 'Conservar', regex=False)
+
+df = df.merge(veg, on='t', how='left')
+
+# ── Paleta de colores ─────────────────────────────────────────────────────────
 C = {
     'header_bg':   '0D2640', 'header_fg':  'EEE8DC',
     'ndvi_hdr':    '144A7A', 'tend_hdr':   '1A5C3A',
+    'veg_hdr':     '2E6B4F',                          # ← nuevo: vegetación
     'inst_hdr':    '6B4C1E', 'rest_hdr':   '4A1E6B',
     'alt_row':     'F5F8FC', 'white':      'FFFFFF',
     'vul1_bg':     'FCE4EC', 'vul2_bg':    'FFF9C4', 'vul3_bg': 'E8F5E9',
     'tend_mej':    'C8E6C9', 'tend_est':   'FFF9C4', 'tend_deg': 'FFCDD2',
+    'veg_alt':     'D4EDE1',                          # ← fondo suave veg
 }
 
 DEPTS = ['colonia','san jose','montevideo','canelones','maldonado','rocha']
@@ -24,7 +40,6 @@ DEPT_NAMES = {
     'canelones':'Canelones','maldonado':'Maldonado','rocha':'Rocha',
 }
 VUL_LABEL = {1:'Alta', 2:'Media', 3:'Baja'}
-ACC_LABEL = {0:'0', 1:'1', 2:'2', 3:'3'}   # acciones registradas (valor numérico original)
 NDVI_YEARS = [2017,2018,2019,2020,2021,2022,2023,2024]
 
 INSTRUMENTOS = [
@@ -38,6 +53,21 @@ INST_OPTS  = '"No existe,En elaboración,Vigente,Desactualizado"'
 ACCION_OPTS = '"No,Sí"'
 YEAR_OPTS  = '"' + ','.join(str(y) for y in range(2017, 2041)) + '"'
 
+ACCIONES = [
+    'Plantación / Revegetación',
+    'Retiro de especies exóticas',
+    'Manejo de accesos',
+    'Manejo de pisoteo / senderos',
+    'Obra de estabilización',
+    'Monitoreo activo',
+    'Otras acciones',
+]
+
+# Columnas de vegetación (4)
+VEG_COLS = ['Veg_cat2', 'Veg_prioridad', 'Zona_Borthagaray', 'Conect_Borthagaray']
+VEG_LABELS = ['Formación vegetal', 'Prioridad Mai 2019', 'Zona (Borthagaray)', 'Conectividad (Borthagaray)']
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
 def fill(h): return PatternFill('solid', fgColor=h)
 def font(bold=False, color='1A2636', size=9, name='Arial'):
     return Font(bold=bold, color=color, size=size, name=name)
@@ -58,18 +88,9 @@ def ndvi_color(val):
     r = int(183*(1-t) + 46*t); g = int(28*(1-t) + 125*t); b = int(28*(1-t) + 50*t)
     return f'{r:02X}{g:02X}{b:02X}'
 
+# ── Workbook ──────────────────────────────────────────────────────────────────
 wb = Workbook()
 wb.remove(wb.active)
-
-ACCIONES = [
-    'Plantación / Revegetación',
-    'Retiro de especies exóticas',
-    'Manejo de accesos',
-    'Manejo de pisoteo / senderos',
-    'Obra de estabilización',
-    'Monitoreo activo',
-    'Otras acciones',
-]
 
 for dept_key in DEPTS:
     dept_df = df[df['d'] == dept_key].copy().reset_index(drop=True)
@@ -81,35 +102,41 @@ for dept_key in DEPTS:
     # ── Definición de columnas ────────────────────────────────────────────────
     COL_TRAMO  = 1; COL_LARGO = 2; COL_VUL = 3; COL_ACC = 4
     ndvi_s = 5; ndvi_e = ndvi_s + len(NDVI_YEARS) - 1
-    COL_TEND = ndvi_e+1; COL_SLOPE = ndvi_e+2; COL_MKP = ndvi_e+3
-    inst_s = COL_MKP+1; inst_e = inst_s + len(INSTRUMENTOS) - 1
-    rest_s = inst_e+1
-    # 6 acciones normales × 2 cols + 1 acción "Otras" × 3 cols
+    COL_TEND  = ndvi_e + 1
+    COL_SLOPE = ndvi_e + 2
+    COL_MKP   = ndvi_e + 3
+    veg_s = COL_MKP + 1                        # vegetación empieza aquí
+    veg_e = veg_s + len(VEG_COLS) - 1
+    inst_s = veg_e + 1
+    inst_e = inst_s + len(INSTRUMENTOS) - 1
+    rest_s = inst_e + 1
     rest_e = rest_s + (len(ACCIONES)-1)*2 + 2
     TOTAL  = rest_e
     n_data = len(dept_df)
-    last_data_row = 3 + n_data   # fila 3 = cabeceras, fila 4..N = datos
+    last_data_row = 3 + n_data
 
     # ── Filas 1-3: cabeceras ──────────────────────────────────────────────────
     grupos = [
-        (COL_TRAMO, COL_ACC,   'IDENTIFICACIÓN',              C['header_bg']),
-        (ndvi_s,    ndvi_e,    'NDVI ANUAL · Sentinel-2 · Buffer 45 m', C['ndvi_hdr']),
-        (COL_TEND,  COL_MKP,   'TENDENCIA',                   C['tend_hdr']),
-        (inst_s,    inst_e,    'INSTRUMENTOS DE MANEJO',      C['inst_hdr']),
-        (rest_s,    rest_e,    'ACCIONES DE RESTAURACIÓN',    C['rest_hdr']),
+        (COL_TRAMO, COL_ACC,  'IDENTIFICACIÓN',                          C['header_bg']),
+        (ndvi_s,    ndvi_e,   'NDVI ANUAL · Sentinel-2 · Buffer 45 m',   C['ndvi_hdr']),
+        (COL_TEND,  COL_MKP,  'TENDENCIA',                               C['tend_hdr']),
+        (veg_s,     veg_e,    'VEGETACIÓN (Mai 2019 · Borthagaray 2025)', C['veg_hdr']),
+        (inst_s,    inst_e,   'INSTRUMENTOS DE MANEJO',                  C['inst_hdr']),
+        (rest_s,    rest_e,   'ACCIONES DE RESTAURACIÓN',                C['rest_hdr']),
     ]
     for c1, c2, label, bg in grupos:
         ws.merge_cells(start_row=1, start_column=c1, end_row=1, end_column=c2)
         hdr(ws, 1, c1, label, bg, size=10, bold=True)
 
-    # Fila 2: sub-grupos
+    # Fila 2: sub-grupos (rellenar con color)
     for col in range(1, TOTAL+1):
         c = ws.cell(row=2, column=col); c.border = border()
-        bg = C['header_bg']
-        if ndvi_s <= col <= ndvi_e: bg = C['ndvi_hdr']
+        if ndvi_s <= col <= ndvi_e:      bg = C['ndvi_hdr']
         elif COL_TEND <= col <= COL_MKP: bg = C['tend_hdr']
-        elif inst_s <= col <= inst_e: bg = C['inst_hdr']
-        elif rest_s <= col <= rest_e: bg = C['rest_hdr']
+        elif veg_s <= col <= veg_e:      bg = C['veg_hdr']
+        elif inst_s <= col <= inst_e:    bg = C['inst_hdr']
+        elif rest_s <= col <= rest_e:    bg = C['rest_hdr']
+        else:                            bg = C['header_bg']
         c.fill = fill(bg)
 
     for i, inst in enumerate(INSTRUMENTOS):
@@ -125,18 +152,20 @@ for dept_key in DEPTS:
 
     # Fila 3: nombres de columna
     h3 = {
-        COL_TRAMO: ('Tramo', C['header_bg']),
-        COL_LARGO: ('Largo (m)', C['header_bg']),
-        COL_VUL:   ('Vulnerabilidad', C['header_bg']),
-        COL_ACC:   ('Acc. registradas', C['header_bg']),
-        COL_TEND:  ('Tendencia', C['tend_hdr']),
-        COL_SLOPE: ('Slope Sen', C['tend_hdr']),
-        COL_MKP:   ('MK p-val', C['tend_hdr']),
+        COL_TRAMO: ('Tramo',           C['header_bg']),
+        COL_LARGO: ('Largo (m)',        C['header_bg']),
+        COL_VUL:   ('Vulnerabilidad',  C['header_bg']),
+        COL_ACC:   ('Acc. registradas',C['header_bg']),
+        COL_TEND:  ('Tendencia',       C['tend_hdr']),
+        COL_SLOPE: ('Slope Sen',       C['tend_hdr']),
+        COL_MKP:   ('MK p-val',        C['tend_hdr']),
     }
     for col, (label, bg) in h3.items():
         hdr(ws, 3, col, label, bg, size=9)
     for i, yr in enumerate(NDVI_YEARS):
         hdr(ws, 3, ndvi_s+i, str(yr), C['ndvi_hdr'], size=9)
+    for i, lbl in enumerate(VEG_LABELS):
+        hdr(ws, 3, veg_s+i, lbl, C['veg_hdr'], size=8, wrap=True)
     for i in range(len(INSTRUMENTOS)):
         hdr(ws, 3, inst_s+i, 'Estado', C['inst_hdr'], size=8)
     for i in range(len(ACCIONES)-1):
@@ -149,7 +178,7 @@ for dept_key in DEPTS:
 
     # ── Datos ─────────────────────────────────────────────────────────────────
     vul_bgs = {1: C['vul1_bg'], 2: C['vul2_bg'], 3: C['vul3_bg']}
-    vul_fgs = {1: '7B0000', 2: '5D4000', 3: '1B5E20'}
+    vul_fgs = {1: '7B0000',     2: '5D4000',     3: '1B5E20'}
 
     for ridx, row_data in dept_df.iterrows():
         er = ridx + 4
@@ -203,7 +232,17 @@ for dept_key in DEPTS:
         mkp = row_data.get('mk_p', None)
         dc(COL_MKP, round(float(mkp),4) if pd.notna(mkp) else None, fmt='0.0000')
 
-        # Instrumentos — celdas vacías (dropdown via validación de rango)
+        # ── Vegetación (Mai 2019 · Borthagaray 2025) ─────────────────────────
+        veg_row_bg = C['veg_alt'] if ridx % 2 == 1 else 'EDF7F1'
+        for i, vcol in enumerate(VEG_COLS):
+            val = row_data.get(vcol, None)
+            val_str = str(val) if pd.notna(val) else ''
+            c = ws.cell(row=er, column=veg_s+i, value=val_str or None)
+            c.fill = fill(veg_row_bg)
+            c.font = Font(color='1A3D2B', size=8, italic=(i>=2 and bool(val_str)), name='Arial')
+            c.alignment = align(h='left', v='center', wrap=False); c.border = border()
+
+        # Instrumentos — celdas vacías
         for i in range(len(INSTRUMENTOS)):
             col = inst_s + i
             c = ws.cell(row=er, column=col, value=None)
@@ -211,7 +250,7 @@ for dept_key in DEPTS:
             c.font = Font(color='5A3E00', size=9, name='Arial')
             c.alignment = align(); c.border = border()
 
-        # Acciones — celdas vacías (dropdown via validación de rango)
+        # Acciones — celdas vacías
         for i in range(len(ACCIONES)-1):
             base = rest_s + i*2
             for off in range(2):
@@ -226,7 +265,6 @@ for dept_key in DEPTS:
             c.alignment = align(h='left' if off==2 else 'center'); c.border = border()
 
     # ── Data Validations sobre rangos de DATOS (filas 4 .. last_data_row) ────
-    # Instrumentos: una DV por columna
     for i in range(len(INSTRUMENTOS)):
         col_l = get_column_letter(inst_s + i)
         dv = DataValidation(type='list', formula1=INST_OPTS, allow_blank=True,
@@ -234,7 +272,6 @@ for dept_key in DEPTS:
         dv.sqref = f'{col_l}4:{col_l}{last_data_row}'
         ws.add_data_validation(dv)
 
-    # Acciones: DV para columnas "Realizada" y DV para columnas "Año"
     for i in range(len(ACCIONES)-1):
         base = rest_s + i*2
         col_r = get_column_letter(base)
@@ -248,7 +285,6 @@ for dept_key in DEPTS:
         dv_y.sqref = f'{col_y}4:{col_y}{last_data_row}'
         ws.add_data_validation(dv_y)
 
-    # Otras acciones (3 cols)
     col_or = get_column_letter(ob)
     col_oy = get_column_letter(ob+1)
     dv_or = DataValidation(type='list', formula1=ACCION_OPTS, allow_blank=True,
@@ -270,6 +306,10 @@ for dept_key in DEPTS:
     ws.column_dimensions[get_column_letter(COL_TEND)].width   = 12
     ws.column_dimensions[get_column_letter(COL_SLOPE)].width  = 10
     ws.column_dimensions[get_column_letter(COL_MKP)].width    = 9
+    ws.column_dimensions[get_column_letter(veg_s)].width      = 22  # Formación vegetal
+    ws.column_dimensions[get_column_letter(veg_s+1)].width    = 18  # Prioridad Mai
+    ws.column_dimensions[get_column_letter(veg_s+2)].width    = 14  # Zona Borthagaray
+    ws.column_dimensions[get_column_letter(veg_s+3)].width    = 16  # Conectividad
     for i in range(len(INSTRUMENTOS)):
         ws.column_dimensions[get_column_letter(inst_s+i)].width = 17
     for i in range(len(ACCIONES)-1):

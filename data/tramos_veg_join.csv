@@ -1,0 +1,358 @@
+t,d,v,a,l,Veg_cat1,Veg_cat2,Veg_cat3,Veg_valor,Veg_prioridad,Veg_exoticas,Zona_Borthagaray,Conect_Borthagaray,lon_wgs84,lat_wgs84
+0,colonia,1,0,2940,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,,,-58.407828434957004,-33.92067495728746
+1,colonia,1,0,3549,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,,,-58.35785724138583,-33.95545980476429
+2,colonia,1,0,908,Agua,Agua,,,Sitio a restaurar - urbano,,,,-58.3318335692424,-33.967183119585144
+3,colonia,1,0,3798,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,,,-58.299790961351505,-34.003898940823
+4,colonia,1,0,282,Herbazal,Herbazal halofito,,,Sitio a restaurar - rural,,,,-58.21548543917255,-34.13381861799412
+5,colonia,1,0,1023,Bosque,Bosque psamofilo hidrofilo,,II,Sitio a restaurar - rural,,,,-58.07187172283789,-34.20418238011856
+6,colonia,1,2,5903,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.86517117908967,-34.44439041534134
+7,colonia,1,0,915,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.84005019928956,-34.473854010669974
+8,colonia,1,0,218,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.83094427005701,-34.472980612856354
+9,colonia,1,0,377,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.82029715300532,-34.472897978439214
+10,colonia,1,0,542,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.60170498692743,-34.425750034869395
+11,colonia,1,3,1537,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.59047437375142,-34.42500891672731
+12,colonia,1,2,1223,Herbazal,Herbazal halofito,,,Sitio a restaurar - rural,,,,-57.577245616468765,-34.426524494205694
+13,colonia,2,2,716,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - rural,,,,-57.45915649183245,-34.42746948282401
+14,colonia,2,2,2726,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,,,-57.44032206967971,-34.43852535595819
+15,colonia,1,0,653,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.29658538871522,-34.437158384367024
+16,colonia,1,2,625,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.27117993003687,-34.435712251443924
+17,colonia,1,0,535,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.264659712474675,-34.43581809448088
+18,colonia,1,0,408,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.25950170857394,-34.43599142447413
+19,colonia,1,0,348,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.25536713761052,-34.436165128718244
+20,colonia,1,0,622,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.249912258903336,-34.43646179523823
+21,colonia,1,1,920,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.24156595186303,-34.43689132897525
+22,colonia,1,0,775,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.19706771714652,-34.44026916931159
+23,colonia,1,1,792,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-57.17246004660384,-34.444305749706146
+24,san jose,1,1,801,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,Oeste,Alta,-57.149264324662056,-34.44842611374171
+25,san jose,1,2,306,Agua,Agua,,,Sitio a restaurar - rural,,Oeste,Alta,-56.75020500242996,-34.69840501147174
+26,san jose,2,2,3271,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.73049398938561,-34.70139487946377
+27,san jose,2,2,120,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,Oeste,Alta,-56.708185001163585,-34.70579000169673
+28,san jose,1,2,157,Agua,Agua,,,Sitio a restaurar - sin urbanizacion consolidada,,Oeste,Alta,-56.706642698171926,-34.70626310466944
+29,san jose,1,2,78,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.70129500043125,-34.70759500075064
+30,san jose,1,2,360,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.70381051121939,-34.707021326572786
+31,san jose,1,2,524,Agua,Agua,,,Sitio a restaurar - rural,,Oeste,Alta,-56.697866026540126,-34.70815829233624
+32,san jose,2,2,854,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.461427133738816,-34.75196860713805
+33,san jose,1,2,976,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.451970282146775,-34.752430765563524
+34,san jose,1,0,510,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.428471957167275,-34.762270513909414
+35,san jose,1,0,4027,Herbazal,Herbazal hidrofilo,"Caraguatal, Juncal, Pajonal",,Sitio a restaurar - urbano,,Oeste,Alta,-56.407618367057545,-34.77063723032625
+36,san jose,1,0,1718,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.37779252731819,-34.780025692450536
+37,san jose,1,0,958,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.36161906407171,-34.78145421633367
+38,montevideo,1,0,2599,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.365462534443004,-34.79815012000835
+39,montevideo,2,0,246,Agua,Agua,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.356916761674924,-34.79382904996244
+40,montevideo,1,0,496,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - rural,,Oeste,Alta,-56.34078009479766,-34.87072951729968
+41,montevideo,1,3,160,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.296007955556114,-34.893254134117996
+42,montevideo,1,0,159,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.26945125456233,-34.89851025652228
+43,montevideo,1,0,446,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.25113270565794,-34.89619720157025
+44,montevideo,1,0,1114,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.242523812162965,-34.87607425258733
+45,montevideo,1,0,1818,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,Centro,Baja,-56.21921626282588,-34.87447841295408
+46,montevideo,1,0,2920,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,Centro,Baja,-56.19988375579169,-34.89071240359428
+47,montevideo,1,2,505,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,Centro,Baja,-56.17055600623671,-34.916768766275595
+48,montevideo,1,2,1398,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.145467191397834,-34.91387267346529
+49,montevideo,1,0,164,Agua,Agua,,,Sitio a restaurar - urbano,,Centro,Baja,-56.13147956494966,-34.905548713174845
+50,montevideo,1,2,1029,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.11960014827664,-34.899612264738295
+51,montevideo,1,2,1582,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.104406499396454,-34.89741654092128
+52,montevideo,1,2,633,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.074961197678846,-34.898223890080395
+53,montevideo,1,1,248,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.068632278499564,-34.89921118787541
+54,montevideo,1,2,5109,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-56.041229176574184,-34.8859335866555
+55,canelones,1,0,431,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-56.015400855657454,-34.873229060509246
+56,canelones,1,2,14847,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,Este,Media,-55.934040941618754,-34.82747833337845
+57,canelones,1,0,193,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-55.858500000987206,-34.79494000459493
+58,canelones,1,1,1253,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.85091980558031,-34.79260014916247
+59,canelones,1,0,1705,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.836429633697406,-34.786520272173696
+60,canelones,1,0,1919,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.818227577590264,-34.77954087657357
+61,canelones,1,1,1798,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-55.798695209708754,-34.77381580735897
+62,canelones,1,2,1989,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.76949687896002,-34.77425608783473
+63,canelones,1,2,1043,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.74822408370964,-34.7796880600481
+64,canelones,1,2,1456,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-55.73544475135816,-34.77481520832066
+65,canelones,1,2,2720,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.714245134073096,-34.76789719928457
+66,canelones,1,2,3152,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.6793448448337,-34.76328906714148
+67,canelones,1,0,1989,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.65690694150166,-34.77358421756551
+68,canelones,1,2,1102,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-55.644499247249136,-34.77780165961903
+69,canelones,1,0,219,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,Este,Media,-55.63773999447951,-34.77564500498107
+70,canelones,1,2,761,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.61677672581692,-34.7721701242613
+71,canelones,1,2,2335,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.59098918499579,-34.77544295095666
+72,canelones,1,2,264,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,Este,Media,-55.57631000233998,-34.78316500854958
+73,canelones,1,0,450,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,Este,Media,-55.56724655323181,-34.78408851466865
+74,canelones,1,0,495,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.56216614138165,-34.78504334311818
+75,canelones,1,0,242,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.55709500491565,-34.787965006696346
+76,canelones,1,0,498,Agua,Agua,,,Sitio a restaurar - urbano,,Este,Media,-55.551549988289125,-34.78965002964807
+77,canelones,1,2,1556,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,Este,Media,-55.54069898179429,-34.792090758802985
+78,canelones,1,2,400,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,Este,Media,-55.5316529111615,-34.796429537009296
+79,canelones,1,0,844,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,Este,Media,-55.509597281300124,-34.79472891877992
+80,canelones,1,0,548,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,Este,Media,-55.50139857544732,-34.794987766339034
+81,canelones,1,0,3127,Bosque,Bosque psamofilo,,II,Sitio a restaurar - rural,,Este,Media,-55.47613002637498,-34.796274944319784
+82,canelones,1,0,1575,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,Este,Media,-55.450662693036705,-34.79320583119954
+83,canelones,1,3,329,,,,,,,Este,Media,-55.43058999866689,-34.79152001340835
+84,canelones,1,3,2537,,,,,,,Este,Media,-55.40783054164056,-34.790024397108056
+85,maldonado,1,2,732,Agua,Agua,,,Sitio a restaurar - rural,,,,-55.39173660141751,-34.79268791105226
+86,maldonado,1,2,918,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.38001027489305,-34.80215542094618
+87,maldonado,1,0,3105,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.35847802538922,-34.80548525370596
+88,maldonado,2,0,56,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.34223000009747,-34.810130000423925
+89,maldonado,1,0,286,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.34049406562377,-34.810895570520465
+90,maldonado,1,0,1603,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,,,-55.33179276515925,-34.815256741986545
+91,maldonado,1,0,1885,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,,,-55.31783867421757,-34.8265395348889
+92,maldonado,1,0,271,Agua,Agua,,,Sitio a restaurar - urbano,,,,-55.31168025033652,-34.83577056422052
+93,maldonado,1,0,914,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.30621089566353,-34.84001200636632
+94,maldonado,1,0,351,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.30243770658965,-34.844649865752025
+95,maldonado,1,0,490,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-55.29884274381801,-34.85495678355722
+96,maldonado,1,0,42,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.29599999978461,-34.85563500028822
+97,maldonado,2,0,1187,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.289806391839655,-34.8578264056174
+98,maldonado,1,2,2085,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,Presencia de Exoticas,,,-55.26691959735007,-34.891929265716804
+99,maldonado,1,1,1437,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.247155564979764,-34.90089851194605
+100,maldonado,1,2,1425,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-55.21906174523801,-34.894541221678594
+101,maldonado,1,0,1012,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-55.20414166910297,-34.889970250686375
+102,maldonado,1,0,414,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,Presencia de Exoticas,,,-55.16004497950837,-34.88172004340162
+103,maldonado,1,0,2670,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,Presencia de Exoticas,,,-55.14207006223091,-34.8802385184367
+104,maldonado,1,0,1593,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,Presencia de Exoticas,,,-55.11780991764615,-34.879160308342954
+105,maldonado,1,0,1241,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,Presencia de Exoticas,,,-55.09651996708972,-34.87783518854916
+106,maldonado,1,0,5148,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-55.06259730937368,-34.88279333946866
+107,maldonado,1,2,2484,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - rural,,,,-55.028476769607394,-34.91032902397141
+108,maldonado,1,2,8858,Agua,Agua,,,Sitio a restaurar - rural,,,,-54.970281141075816,-34.92689528341633
+109,maldonado,1,2,743,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.934654357800156,-34.957215079464554
+110,maldonado,1,2,6335,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.899655462909564,-34.93583867026492
+111,maldonado,1,2,744,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.86753657779055,-34.919110947112955
+112,maldonado,1,1,439,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - rural,,,,-54.848113961699674,-34.91596919499788
+113,maldonado,1,2,1728,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - rural,,,,-54.83609260593186,-34.91028534921326
+114,maldonado,1,0,578,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.821154845249524,-34.907616379697416
+115,maldonado,1,0,2810,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.78979758817496,-34.89425029696652
+116,maldonado,1,0,437,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.76148497214931,-34.87926501546475
+117,maldonado,1,0,1438,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.74457971298014,-34.87085517498997
+118,maldonado,1,1,4208,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.694830175704446,-34.84964863821317
+119,maldonado,1,0,2683,Herbazal,Herbazal psamofilo,,I,Sitio a restaurar - urbano,Alta,,,-54.65956505184817,-34.83995495555861
+120,maldonado,1,0,454,Agua,Agua,,,Sitio a restaurar - rural,,,,-54.64285953532637,-34.84140158142574
+121,maldonado,1,0,594,Herbazal,Herbazal psamofilo,Herbazal psamofilo laxo,II,Sitio a restaurar - rural,SI,,,-54.63172015622073,-34.8383410969975
+122,maldonado,1,0,1398,Agua,Agua,,,Sitio a restaurar - rural,,,,-54.619309920508115,-34.82704604662539
+123,maldonado,1,0,370,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-54.5984645647903,-34.81642557459923
+124,rocha,1,2,2817,Herbazal,Herbazal psamofilo,Barra arenosa y dunas costeras,III,Sitio a restaurar - urbano,,,,-54.55206287770235,-34.79500760867263
+125,rocha,1,2,784,Herbazal,Herbazal psamofilo,Estepa psamofila,,Sitio a restaurar - urbano,,,,-54.57738492139031,-34.806720057012654
+126,rocha,1,0,664,Herbazal,Herbazal psamofilo,Barra arenosa y dunas costeras,III,Sitio a restaurar - urbano,,,,-54.535499938647554,-34.7872500374314
+127,rocha,1,0,706,Herbazal,Herbazal psamofilo,Barra arenosa y dunas costeras,III,Sitio a restaurar - urbano,,,,-54.52881493244917,-34.784145043709934
+128,rocha,1,0,1333,Herbazal,Herbazal psamofilo,Barra arenosa y dunas costeras,III,Sitio a restaurar - urbano,,,,-54.51845475291587,-34.77944014928206
+129,rocha,1,0,1186,Herbazal,Herbazal psamofilo,Barra arenosa y dunas costeras,III,Sitio a restaurar - urbano,,,,-54.506299803289686,-34.773755116506095
+130,rocha,1,0,1671,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - urbano,,,,-54.49222462289712,-34.76753024212622
+131,rocha,1,0,7865,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.44552715344008,-34.747368224751334
+132,rocha,1,0,4504,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.38363861127061,-34.72411619090039
+133,rocha,1,0,4482,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.32636886515936,-34.70192159462098
+134,rocha,1,0,2075,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.28772724970498,-34.68738496060096
+135,rocha,1,0,5579,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.24068745169324,-34.67188976506031
+136,rocha,1,0,650,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.20855496137499,-34.662680046118176
+137,rocha,1,2,1052,Agua,Agua,,,Sitio a restaurar - urbano,,,,-54.199393101009505,-34.66104243750258
+138,rocha,1,2,865,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.189005552233375,-34.6602579500372
+139,rocha,1,2,521,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.1793206393681,-34.661489193164215
+140,rocha,1,2,754,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.16547729321358,-34.66506084770467
+141,rocha,1,2,274,Agua,Agua,,,Sitio a restaurar - urbano,,,,-54.15117649751086,-34.66354064647914
+142,rocha,1,2,447,Agua,Agua,,,Sitio a restaurar - urbano,,,,-54.154549997100894,-34.63777000033646
+143,rocha,1,0,726,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - urbano,,,,-54.153442982818554,-34.63246045477056
+144,rocha,1,2,695,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.15090560630958,-34.626218607369246
+145,rocha,1,2,1066,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.146548685099134,-34.61889619565479
+146,rocha,1,0,1792,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.13798852159146,-34.60806007305928
+147,rocha,1,0,485,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.129741290061936,-34.60026580957376
+148,rocha,1,0,860,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.122953105131494,-34.595115640639996
+149,rocha,1,0,1854,Herbazal,Herbazal rupicola,,,Sitio a restaurar - urbano,,,,-54.11452913735662,-34.58013228204748
+150,rocha,1,0,1417,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.10204969495557,-34.56934510897381
+151,rocha,1,0,4754,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.0760449308095,-34.55083408728065
+152,rocha,1,0,1595,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.04850502783746,-34.532706206812335
+153,rocha,1,0,715,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.03805992378051,-34.52606003671774
+154,rocha,1,0,1023,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.03018984365792,-34.52131007210425
+155,rocha,1,0,2648,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.013742170520764,-34.51145935529231
+156,rocha,1,0,2350,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.981613505430815,-34.49291939375994
+157,rocha,1,0,1430,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,,,-53.96450970613472,-34.48330015503421
+158,rocha,1,0,1604,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,,,-53.95057462545547,-34.47581518813718
+159,rocha,1,0,1016,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.93850485120315,-34.46930007887355
+160,rocha,1,0,2129,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.92375935200893,-34.46159534545169
+161,rocha,1,0,2106,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - sin urbanizacion consolidada,"Si, pero no se expande hacia el herbazal",,,-53.90389436489506,-34.451110336008746
+162,rocha,1,0,1129,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,Si,,,-53.88831981742974,-34.4432350975748
+163,rocha,1,0,258,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,Si,,,-53.88158498955715,-34.439880004711846
+164,rocha,1,0,287,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,Si,,,-53.87890498789166,-34.43847500681605
+165,rocha,1,0,1796,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,Si,,,-53.86889535854915,-34.43349039334169
+166,rocha,1,0,1160,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,Si,,,-53.85492390856249,-34.42657118287748
+167,rocha,1,1,953,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.78986044862915,-34.336513223283
+168,rocha,1,1,2705,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.77708761719862,-34.275301099044896
+169,rocha,1,0,1029,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.74793485758384,-34.2371400289355
+170,rocha,1,0,1951,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.738433083549424,-34.22604891105615
+171,rocha,1,0,4699,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.7141021224323,-34.199498279953765
+172,rocha,1,0,1937,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.67260944192239,-34.15875517999413
+173,rocha,1,2,2002,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,,,-53.54643193398416,-34.05482154194426
+174,rocha,1,2,908,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.53861046483407,-34.041449566191545
+175,rocha,1,0,1259,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.50952860567073,-33.9008831183835
+176,rocha,1,0,1334,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.505071263428995,-33.89014706611523
+177,rocha,1,0,3177,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.40459468435745,-33.773599932414676
+178,rocha,1,0,585,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.39087754114347,-33.761113417123966
+179,rocha,1,1,1850,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.379740018198326,-33.75172085546072
+181,rocha,3,0,1035,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.536187927581715,-34.045945274544856
+182,rocha,1,0,396,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - urbano,si,,,-53.55235548452346,-34.06401870753208
+183,rocha,3,0,1096,Herbazal,Herbazal rupicola,,II,Sitio a restaurar - urbano,si,,,-53.552412390873855,-34.06780735446665
+184,rocha,1,0,13653,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.61134223558661,-34.10950122970535
+185,rocha,3,0,1063,Herbazal,Herbazal psamofilo,Herbazal mezcla psamofilo y rupicola,II,Sitio a restaurar - urbano,,,,-53.53715767596844,-34.03417723177769
+186,rocha,1,0,3633,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.539025942141144,-34.01860026067119
+187,rocha,3,0,833,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.530626203148245,-34.00204967966876
+188,rocha,1,0,1759,Herbazal,Herbazal rupicola,Herbazal mezcla psamofilo y rupicola,III,Sitio a conservar,,,,-53.53348756063567,-33.99343375714454
+189,rocha,3,0,485,Herbazal,Herbazal rupicola,Herbazal mezcla psamofilo y rupicola,III,Sitio a conservar,,,,-53.530335973024,-33.98538664126444
+190,rocha,1,0,926,Herbazal,Herbazal rupicola,Herbazal mezcla psamofilo y rupicola,III,Sitio a conservar,,,,-53.53172395489896,-33.98083075973516
+191,rocha,3,0,414,Matorral,Matorral psamofilo,Matorral espinoso psamofilo,II,Sitio a restaurar - urbano,,,,-53.52971328174716,-33.97611461088002
+192,rocha,1,0,3997,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,,,-53.520984485403496,-33.959882419245275
+193,rocha,3,0,778,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,,,-53.507942144409455,-33.944362518474406
+194,rocha,1,0,4309,Herbazal,Herbazal rupicola,Herbazal mezcla psamofilo y rupicola,III,Sitio a conservar,,,,-53.510311229538615,-33.924250864310764
+195,rocha,1,0,348,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.501249989366364,-33.882895000617395
+196,rocha,3,0,2937,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.49218895625789,-33.869510176624246
+197,rocha,1,0,1148,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.4808698328324,-33.85360502962232
+198,rocha,3,0,1715,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.47230460575853,-33.84282508353743
+199,rocha,1,0,7286,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.441938591057394,-33.81000626617997
+200,rocha,3,0,2293,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,,,-53.68824923771746,-34.17304521142332
+201,rocha,1,0,207,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.69695999487351,-34.18200000046443
+202,rocha,1,0,328,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.73082498572054,-34.21761500221834
+203,rocha,1,0,3037,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.76055880072989,-34.2530802380002
+204,rocha,1,0,5041,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.78978592520742,-34.30948075288176
+205,rocha,1,0,1493,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.78289594072912,-34.344768039262
+206,rocha,3,0,1099,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.77229938937537,-34.34529516543491
+207,rocha,1,0,999,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.76829836645687,-34.35241087428212
+208,rocha,3,0,945,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.76299009764336,-34.35810996452966
+209,rocha,1,0,5061,Agua,Agua,,,Sitio a restaurar - urbano,,,,-53.77743006764464,-34.37945216335355
+210,rocha,3,0,2214,Herbazal,Herbazal psamofilo,Pastizal costero,II,Sitio a restaurar - urbano,,,,-53.780522802353694,-34.40482348388545
+211,rocha,1,0,6430,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,,,-53.818156006003875,-34.41146071746716
+212,rocha,1,0,1010,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-53.99711985234567,-34.50167007748002
+213,rocha,3,0,624,Herbazal,Herbazal rupicola,,II,Sitio a conservar,SI,,,-54.120905385851565,-34.58947329755998
+214,rocha,1,1,176,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.12694999529908,-34.5982450026538
+215,rocha,3,0,1042,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.153515394130935,-34.64448705449285
+216,rocha,1,0,1124,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.147827664601095,-34.65119363865613
+217,rocha,3,0,1813,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.142620519559465,-34.65550311321398
+218,rocha,1,0,1220,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.14994235667548,-34.65803447226369
+219,rocha,3,0,1488,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.15473481694209,-34.66720473908365
+220,rocha,3,0,774,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.1732509409943,-34.6637314818428
+221,rocha,1,0,814,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.272716283655534,-34.683139487289885
+222,rocha,1,0,568,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.301269954284045,-34.69217002645035
+223,rocha,2,0,1176,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.35494983470228,-34.712900133825066
+224,rocha,1,0,816,Herbazal,Herbazal psamofilo,Barra arenosa y dunas costeras,III,Sitio a restaurar - urbano,,,,-54.569579910266114,-34.80332505876577
+225,rocha,1,0,1558,Herbazal,Herbazal psamofilo,Estepa psamofila,,Sitio a restaurar - urbano,,,,-54.5889746661495,-34.81188520668341
+226,maldonado,1,0,1278,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-54.60672775754387,-34.82018112413261
+227,maldonado,1,0,750,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-54.62805991512834,-34.8336250255536
+228,maldonado,3,0,2076,Herbazal,Herbazal rupicola,,,Sitio a restaurar - rural,,,,-54.63624207300874,-34.845571236712004
+229,maldonado,2,0,2307,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-54.72680428907473,-34.86279047045169
+230,maldonado,1,0,1410,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.77029971954824,-34.88363516395194
+231,maldonado,3,0,1676,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.80998011091506,-34.9047602107119
+232,maldonado,3,0,311,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.82573607306877,-34.90835779490719
+233,maldonado,3,0,239,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - rural,,,,-54.84515714711361,-34.91444187138503
+235,maldonado,3,0,2345,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-54.85897934557656,-34.91701984745715
+236,maldonado,3,0,6516,Herbazal,Herbazal rupicola,,I,Sitio a restaurar - rural,,,,-54.947463639012895,-34.964710077417514
+237,maldonado,3,0,2131,Agua,Agua,,,Sitio a restaurar - urbano,,,,-54.97154113236546,-34.95847357402961
+238,maldonado,3,0,551,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - rural,,,,-55.01378295759519,-34.91094014189722
+239,maldonado,3,0,3488,Agua,Agua,,III,Sitio a conservar,"Si, En la ladera oeste hay sectores con alta invasion, en la ladera Este la invasion es m�s baja",,,-55.04480572663851,-34.90731180236461
+240,maldonado,1,0,528,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,Presencia de Exoticas,,,-55.10620998509085,-34.8783600331335
+241,maldonado,3,0,3121,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-55.18018797335936,-34.88485950347326
+242,maldonado,3,0,1754,Herbazal,Herbazal halofito,,,Sitio a restaurar - rural,,,,-55.23368284090092,-34.9012161283332
+243,maldonado,3,0,1550,Herbazal,Herbazal rupicola,,III,Sitio a conservar,si,,,-55.25937784171866,-34.901815501350406
+244,maldonado,3,0,4137,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - urbano,,,,-55.27943191101607,-34.875451953893894
+246,maldonado,3,0,1003,Matorral,Matorral psamofilo,Matorral espinoso psamofilo,II,Sitio a restaurar - rural,,,,-55.38603277058013,-34.79836418594008
+247,canelones,1,0,636,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.424844977127385,-34.79121004775764
+248,canelones,1,0,881,,,,,,,Este,Media,-55.43733531265116,-34.79175328238871
+249,canelones,3,0,730,Herbazal,Herbazal psamofilo,,III,Sitio a conservar,,Este,Media,-55.4962013259177,-34.797939578034786
+250,canelones,1,0,1538,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-55.52239933452797,-34.79637983215562
+251,canelones,3,0,88,Matorral,Matorral psamofilo,Matorral de Candela con herbazal,II,Sitio a restaurar - urbano,,Este,Media,-55.53421317256817,-34.796586057149185
+252,canelones,3,0,233,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.55506367026101,-34.78917849215537
+253,canelones,3,0,236,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.55903308997253,-34.786718646077134
+254,canelones,1,0,460,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.572305005057984,-34.78371502600357
+255,canelones,3,0,393,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - sin urbanizacion consolidada,,Este,Media,-55.57938964277042,-34.78189345092893
+256,canelones,2,0,889,Matorral,Matorral psamofilo,Matorral de Candela,II,Sitio a restaurar - rural,,Este,Media,-55.60773006989376,-34.771742088404054
+257,canelones,2,0,1435,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-55.62876986391474,-34.77389523838509
+258,canelones,3,0,1107,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Este,Media,-55.758508881838566,-34.78108952553304
+259,canelones,2,0,862,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-55.78424571860759,-34.7710533382053
+260,canelones,1,0,1370,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Este,Media,-56.007454728680045,-34.8684251456631
+261,montevideo,3,0,336,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.065609278953325,-34.899359295535994
+262,montevideo,3,0,312,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,Centro,Baja,-56.07105219049534,-34.89953512076322
+263,montevideo,3,0,960,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.0816744410968,-34.898703797801616
+264,montevideo,3,0,185,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.0961284739612,-34.89702876237045
+265,montevideo,1,0,922,Agua,Agua,,,Sitio a restaurar - urbano,,Centro,Baja,-56.09045539861247,-34.895857031145646
+266,montevideo,1,0,154,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.08503617519361,-34.89598876083116
+267,montevideo,3,0,309,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.11356268059638,-34.89798780475185
+268,montevideo,3,0,1032,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,Centro,Baja,-56.12604671923867,-34.90507933304038
+269,montevideo,3,0,2334,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Centro,Baja,-56.13328944079598,-34.910290068804464
+270,montevideo,3,0,6919,Agua,Agua,,,Sitio a restaurar - urbano,,Centro,Baja,-56.15988989786627,-34.92754923556275
+271,montevideo,3,0,10309,Agua,Agua,,,Sitio a restaurar - urbano,,Centro,Baja,-56.20459350460365,-34.90868279493301
+272,montevideo,1,0,1731,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,Centro,Baja,-56.20642790015216,-34.87931120554564
+273,montevideo,3,0,2113,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.23142431229767,-34.877566007239174
+274,montevideo,3,0,2957,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.24569533901725,-34.88728372408784
+275,montevideo,3,0,3333,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.26044416570641,-34.901928349586
+276,montevideo,3,0,1398,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.27519065462206,-34.89939745962752
+277,montevideo,1,0,800,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.27848519033738,-34.895257566735914
+278,montevideo,3,0,112,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.28020306771745,-34.89539388641843
+279,montevideo,1,0,244,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.28171122951824,-34.894643291886744
+280,montevideo,3,0,2699,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.28852917255899,-34.89681631903943
+281,montevideo,3,0,256,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.298150719765694,-34.893348941671846
+282,montevideo,3,0,715,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.303121872944246,-34.894382371579255
+283,montevideo,1,0,233,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.30675647778282,-34.89676204240347
+284,montevideo,3,0,265,Herbazal,Campo natural,,II,Sitio a restaurar - urbano,,Oeste,Alta,-56.30878369574741,-34.896890035007836
+285,montevideo,3,0,6542,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.32234316925118,-34.89339768493006
+286,montevideo,1,0,233,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.33571477659444,-34.874017925205585
+287,montevideo,3,0,349,Herbazal,Herbazal halofito,,,Sitio a restaurar - rural,,Oeste,Alta,-56.33795448252199,-34.87284829957136
+288,montevideo,1,0,36,Herbazal,Campo natural,,,Sitio a restaurar - rural,,Oeste,Alta,-56.339050000085635,-34.87169500018544
+289,montevideo,3,0,2645,Agua,Agua,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.35051846654508,-34.868884926025764
+290,montevideo,1,0,66,Herbazal,Herbazal psamofilo,,II,Sitio a restaurar - rural,,Oeste,Alta,-56.343054878841784,-34.869824236210626
+291,montevideo,1,0,336,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.35529889539377,-34.866591424455
+292,montevideo,3,0,2676,Herbazal,Herbazal halofito,,,Sitio a restaurar - rural,,Oeste,Alta,-56.367462322381115,-34.863858270666746
+293,montevideo,1,0,233,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.37646944283827,-34.858251147368485
+294,montevideo,3,0,799,Herbazal,Campo natural,,,Sitio a restaurar - rural,,Oeste,Alta,-56.38011417923224,-34.85589184863687
+295,montevideo,1,0,350,Agua,Agua,,,Sitio a restaurar - rural,,Oeste,Alta,-56.38187604737941,-34.85192581167909
+296,montevideo,3,0,904,Herbazal,Campo natural,,,Sitio a restaurar - rural,,Oeste,Alta,-56.38705867838437,-34.84966024798146
+297,montevideo,3,0,867,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.392550000565556,-34.84451215909866
+298,montevideo,3,0,339,Agua,Agua,,,Sitio a restaurar - rural,,Oeste,Alta,-56.398658014517245,-34.843254201916395
+299,montevideo,1,0,188,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,Oeste,Alta,-56.40105649922783,-34.842116754393864
+300,montevideo,3,0,9054,Agua,Agua,,,Sitio a restaurar - rural,,Oeste,Alta,-56.41434566562211,-34.824302199373015
+301,montevideo,1,0,1628,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,Oeste,Alta,-56.3854791275574,-34.79899137196082
+302,san josé,1,0,445,Herbazal,Campo natural,,,Sitio a restaurar - rural,,,,-56.36867695353692,-34.781629777057255
+303,san josé,1,0,1754,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-56.43830759145453,-34.757185984463796
+304,san josé,2,0,3697,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-56.48619089429442,-34.75050343828852
+305,san josé,1,0,1514,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-56.51463308234932,-34.75139173409315
+306,san josé,2,0,1849,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - urbano,,,,-56.532806154721506,-34.754098234082775
+307,san josé,1,0,3018,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,,,-56.557954892681416,-34.757135488368846
+308,san josé,2,0,7689,Agua,Agua,,,Sitio a restaurar - rural,,,,-56.608854190614515,-34.73509686949423
+309,san josé,1,0,844,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-56.65086506737438,-34.71851007738747
+310,san josé,2,0,3011,Agua,Agua,,,Sitio a restaurar - rural,,,,-56.67093934789448,-34.71307009617483
+311,san josé,1,0,759,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-56.69096515385174,-34.70885196593094
+312,san josé,2,0,402,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-56.71101456366438,-34.70525346356864
+313,san josé,2,0,1681,Agua,Agua,,,Sitio a restaurar - urbano,,,,-56.76119922710579,-34.69686076555265
+314,san josé,1,0,5587,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,,,-56.800350719276196,-34.69087274306983
+315,san josé,1,0,1500,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-56.83297104556354,-34.67716605409264
+316,san josé,2,0,3041,Herbazal,Herbazal halofito,,,Sitio a restaurar - urbano,,,,-56.855942323572926,-34.66841136492212
+317,san josé,1,0,7360,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,,,-56.89976641384695,-34.64281821281272
+318,san josé,2,0,8814,Herbazal,Campo natural,,,Sitio a restaurar - rural,,,,-56.96015356948494,-34.59044397242518
+319,san josé,1,0,14150,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,III,Sitio a conservar,,,,-57.05118635319307,-34.522346952088114
+320,san josé,2,0,5289,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.11987786503864,-34.45834374721966
+321,colonia,1,0,3268,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.219046265894534,-34.43787270259099
+322,colonia,1,0,1715,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.28370404688971,-34.43603490670722
+323,colonia,1,0,14241,Agua,Agua,,,Sitio a restaurar - rural,,,,-57.363816963767476,-34.43439241264507
+324,colonia,2,0,986,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,,,-57.45132874056384,-34.429903402833865
+325,colonia,2,0,587,Bosque,Bosque psamofilo,,III,Sitio a conservar,Si,,,-57.46611932855058,-34.42674212404549
+326,colonia,1,0,6715,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.50034109798794,-34.43751110309471
+327,colonia,3,0,3952,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,,,-57.546599510834376,-34.44783236441933
+328,colonia,1,0,1515,Herbazal,Herbazal halofito,,,Sitio a restaurar - rural,,,,-57.5649596407497,-34.4322477168124
+329,colonia,2,0,1518,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.612583611838915,-34.42802825921453
+330,colonia,1,0,1684,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.62952454102443,-34.433579910289176
+331,colonia,1,0,1232,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,,,-57.643775660588354,-34.438302072371044
+332,colonia,1,0,2076,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.660087764950205,-34.44310926383642
+333,colonia,3,0,176,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.67091432941426,-34.447832180895595
+334,colonia,3,0,61,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.66968175343166,-34.448004803463924
+335,colonia,3,0,352,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,,,-57.67325883139199,-34.447070281340515
+336,colonia,1,0,4132,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-57.69558332245287,-34.451930146363296
+337,colonia,3,0,1413,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,,,-57.72159135031955,-34.46119229048084
+338,colonia,1,0,3852,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.74253099299811,-34.4593399971366
+339,colonia,3,0,2300,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.77022433348616,-34.469995556920374
+340,colonia,1,0,2332,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.78943132215521,-34.46765617673832
+341,colonia,3,0,1365,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - urbano,,,,-57.80800304534047,-34.47162317567687
+342,colonia,1,0,329,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.81684271541131,-34.471649594708865
+343,colonia,3,0,923,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - urbano,,,,-57.82611986141611,-34.47434972638933
+344,colonia,1,0,71,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.832559999918104,-34.47300000067099
+345,colonia,3,0,315,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.83461607093753,-34.47324680222606
+346,colonia,3,0,4001,Herbazal,Campo natural,,,Sitio a restaurar - urbano,,,,-57.84867732904034,-34.4696003066036
+347,colonia,1,0,3466,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - urbano,,,,-57.893128186809285,-34.416847520492645
+348,colonia,2,0,7492,Agua,Agua,,,Sitio a restaurar - urbano,,,,-57.90568335713052,-34.36861115042402
+349,colonia,2,0,5798,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - rural,,,,-57.963641358331486,-34.298452322922614
+350,colonia,1,0,3169,Herbazal,Herbazal hidrofilo,,,Sitio a restaurar - rural,,,,-57.93637593421669,-34.33094688750952
+351,colonia,1,0,13770,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,,,-58.03353449683219,-34.24164045677339
+352,colonia,2,0,13080,Agua,Agua,,,Sitio a restaurar - rural,,,,-58.126803464503446,-34.17412995534114
+353,colonia,1,0,5457,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - rural,,,,-58.213164677503016,-34.15385177555246
+354,colonia,2,0,9842,Agua,Agua,,,Sitio a restaurar - rural,,,,-58.227114364584175,-34.09148113581299
+355,colonia,1,0,6224,Herbazal,Herbazal psamofilo,,,Sitio a restaurar - rural,,,,-58.276348706775714,-34.03277628938089
+356,colonia,1,0,3487,Agua,Agua,,,Sitio a restaurar - urbano,,,,-58.31787798775781,-33.98266044375456
+357,colonia,1,0,1048,Matorral Y Bosque Psamofilo,Matorral y bosque psamofilo,,,Sitio a restaurar - urbano,,,,-58.34168322572838,-33.96417338734735
+358,colonia,1,0,2832,Agua,Agua,,,Sitio a restaurar - urbano,,,,-58.37737416621461,-33.944374499233845
+359,colonia,3,0,1811,Agua,Agua,,,Sitio a restaurar - urbano,,,,-58.394556036320935,-33.93154558013371
