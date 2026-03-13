@@ -1,52 +1,30 @@
 import pandas as pd
 from openpyxl import Workbook
-from openpyxl.styles import (Font, PatternFill, Alignment, Border, Side,
-                              GradientFill)
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.utils import get_column_letter
-from openpyxl.styles.numbers import FORMAT_NUMBER_00
-import numpy as np
 
-# ── Datos ─────────────────────────────────────────────────────────────────────
 df = pd.read_csv(
     '/home/gaitapi/proyectos/kpi-costa/script para correr en GEE el NDVI de todos los tramos costeros 45 metros/KPI_NDVI_tendencia.csv'
 )
-# Normalizar nombre de departamento
 df['d'] = df['d'].str.strip().str.lower().str.replace('san josé','san jose')
 
-# ── Paleta ────────────────────────────────────────────────────────────────────
 C = {
-    'header_bg':    '0D2640',
-    'header_fg':    'EEE8DC',
-    'subhdr_ndvi':  '144A7A',
-    'subhdr_tend':  '1A5C3A',
-    'subhdr_inst':  '6B4C1E',
-    'subhdr_rest':  '4A1E6B',
-    'alt_row':      'F5F8FC',
-    'white':        'FFFFFF',
-    'vul1_bg':      'FCE4EC',  # Alta — rojo suave
-    'vul2_bg':      'FFF9C4',  # Media — amarillo
-    'vul3_bg':      'E8F5E9',  # Baja — verde
-    'tend_mej':     'C8E6C9',
-    'tend_est':     'FFF9C4',
-    'tend_deg':     'FFCDD2',
-    'border':       'BFCAD8',
-    'ndvi_hi':      '2E7D32',  # verde oscuro (NDVI alto)
-    'ndvi_lo':      'B71C1C',  # rojo oscuro (NDVI bajo)
+    'header_bg':   '0D2640', 'header_fg':  'EEE8DC',
+    'ndvi_hdr':    '144A7A', 'tend_hdr':   '1A5C3A',
+    'inst_hdr':    '6B4C1E', 'rest_hdr':   '4A1E6B',
+    'alt_row':     'F5F8FC', 'white':      'FFFFFF',
+    'vul1_bg':     'FCE4EC', 'vul2_bg':    'FFF9C4', 'vul3_bg': 'E8F5E9',
+    'tend_mej':    'C8E6C9', 'tend_est':   'FFF9C4', 'tend_deg': 'FFCDD2',
 }
 
 DEPTS = ['colonia','san jose','montevideo','canelones','maldonado','rocha']
 DEPT_NAMES = {
-    'colonia':    'Colonia',
-    'san jose':   'San José',
-    'montevideo': 'Montevideo',
-    'canelones':  'Canelones',
-    'maldonado':  'Maldonado',
-    'rocha':      'Rocha',
+    'colonia':'Colonia','san jose':'San José','montevideo':'Montevideo',
+    'canelones':'Canelones','maldonado':'Maldonado','rocha':'Rocha',
 }
 VUL_LABEL = {1:'Alta', 2:'Media', 3:'Baja'}
-ACC_LABEL = {0:'Sin acceso', 1:'Bajo', 2:'Medio', 3:'Alto'}
-
+ACC_LABEL = {0:'0', 1:'1', 2:'2', 3:'3'}   # acciones registradas (valor numérico original)
 NDVI_YEARS = [2017,2018,2019,2020,2021,2022,2023,2024]
 
 INSTRUMENTOS = [
@@ -56,7 +34,32 @@ INSTRUMENTOS = [
     'Anteproyecto de obra',
     'Proyecto ejecutivo',
 ]
-INST_OPTS = 'No existe,En elaboración,Vigente,Desactualizado'
+INST_OPTS  = '"No existe,En elaboración,Vigente,Desactualizado"'
+ACCION_OPTS = '"No,Sí"'
+YEAR_OPTS  = '"' + ','.join(str(y) for y in range(2017, 2041)) + '"'
+
+def fill(h): return PatternFill('solid', fgColor=h)
+def font(bold=False, color='1A2636', size=9, name='Arial'):
+    return Font(bold=bold, color=color, size=size, name=name)
+def align(h='center', v='center', wrap=False):
+    return Alignment(horizontal=h, vertical=v, wrap_text=wrap)
+def border():
+    s = Side(style='thin', color='BFCAD8')
+    return Border(left=s, right=s, top=s, bottom=s)
+
+def hdr(ws, row, col, text, bg, fg='EEE8DC', bold=True, size=9, wrap=True, h='center'):
+    c = ws.cell(row=row, column=col, value=text)
+    c.fill = fill(bg); c.font = Font(bold=bold, color=fg, size=size, name='Arial')
+    c.alignment = align(h=h, v='center', wrap=wrap); c.border = border()
+
+def ndvi_color(val):
+    if pd.isna(val): return 'D0D0D0'
+    t = min(max(val / 0.75, 0), 1)
+    r = int(183*(1-t) + 46*t); g = int(28*(1-t) + 125*t); b = int(28*(1-t) + 50*t)
+    return f'{r:02X}{g:02X}{b:02X}'
+
+wb = Workbook()
+wb.remove(wb.active)
 
 ACCIONES = [
     'Plantación / Revegetación',
@@ -67,377 +70,263 @@ ACCIONES = [
     'Monitoreo activo',
     'Otras acciones',
 ]
-ACCION_OPTS = 'No,Sí'
-
-# ── Helpers ───────────────────────────────────────────────────────────────────
-def fill(hex_color):
-    return PatternFill('solid', fgColor=hex_color)
-
-def font(bold=False, color='000000', size=10, name='Arial'):
-    return Font(bold=bold, color=color, size=size, name=name)
-
-def align(h='center', v='center', wrap=False):
-    return Alignment(horizontal=h, vertical=v, wrap_text=wrap)
-
-def thin_border(color='BFCAD8'):
-    s = Side(style='thin', color=color)
-    return Border(left=s, right=s, top=s, bottom=s)
-
-def ndvi_color(val):
-    """Interpolar color entre rojo (0) y verde (0.8+)."""
-    if pd.isna(val): return 'D0D0D0'
-    t = min(max(val / 0.75, 0), 1)
-    r = int(183 * (1-t) + 46 * t)
-    g = int(28  * (1-t) + 125 * t)
-    b = int(28  * (1-t) + 50  * t)
-    return f'{r:02X}{g:02X}{b:02X}'
-
-def set_header_cell(ws, row, col, text, bg, fg='EEE8DC', bold=True,
-                    size=9, wrap=True, h='center'):
-    c = ws.cell(row=row, column=col, value=text)
-    c.fill = fill(bg)
-    c.font = font(bold=bold, color=fg, size=size)
-    c.alignment = align(h=h, v='center', wrap=wrap)
-    c.border = thin_border()
-    return c
-
-# ── Construcción ──────────────────────────────────────────────────────────────
-wb = Workbook()
-wb.remove(wb.active)  # quitar hoja vacía inicial
 
 for dept_key in DEPTS:
     dept_df = df[df['d'] == dept_key].copy().reset_index(drop=True)
-    if dept_df.empty:
-        continue
-
+    if dept_df.empty: continue
     ws = wb.create_sheet(title=DEPT_NAMES[dept_key])
-    ws.freeze_panes = 'A4'  # congelar filas de cabecera
+    ws.freeze_panes = 'A4'
+    ws.sheet_view.zoomScale = 85
 
-    # ── Definir columnas ──────────────────────────────────────────────────────
-    # Fila 1: grupos principales
-    # Fila 2: subgrupos
-    # Fila 3: nombres de columna
-    # Fila 4+: datos
+    # ── Definición de columnas ────────────────────────────────────────────────
+    COL_TRAMO  = 1; COL_LARGO = 2; COL_VUL = 3; COL_ACC = 4
+    ndvi_s = 5; ndvi_e = ndvi_s + len(NDVI_YEARS) - 1
+    COL_TEND = ndvi_e+1; COL_SLOPE = ndvi_e+2; COL_MKP = ndvi_e+3
+    inst_s = COL_MKP+1; inst_e = inst_s + len(INSTRUMENTOS) - 1
+    rest_s = inst_e+1
+    # 6 acciones normales × 2 cols + 1 acción "Otras" × 3 cols
+    rest_e = rest_s + (len(ACCIONES)-1)*2 + 2
+    TOTAL  = rest_e
+    n_data = len(dept_df)
+    last_data_row = 3 + n_data   # fila 3 = cabeceras, fila 4..N = datos
 
-    # Índices de columna (1-based)
-    COL_TRAMO    = 1   # t
-    COL_LARGO    = 2   # l
-    COL_VUL      = 3   # vulnerabilidad
-    COL_ACC      = 4   # accesibilidad
-    ndvi_start   = 5
-    ndvi_end     = ndvi_start + len(NDVI_YEARS) - 1   # 5..12
-    COL_TEND     = ndvi_end + 1   # 13
-    COL_SLOPE    = ndvi_end + 2   # 14
-    COL_MKP      = ndvi_end + 3   # 15
-    inst_start   = COL_MKP + 1    # 16
-    inst_end     = inst_start + len(INSTRUMENTOS) - 1  # 16..20
-    rest_start   = inst_end + 1   # 21
-    # cada acción ocupa 2 columnas: Realizada + Año
-    rest_end     = rest_start + len(ACCIONES)*2 - 1
-    # "otras" tiene 3 cols: Realizada + Año + Descripción
-    # hacemos la última acción (Otras) con columna extra
-    rest_end     += 1  # +1 para descripción de "Otras"
-    TOTAL_COLS   = rest_end
-
-    # ── Fila 1: Grupos ────────────────────────────────────────────────────────
-    grp = [
-        (COL_TRAMO, COL_ACC,    'IDENTIFICACIÓN',  C['header_bg']),
-        (ndvi_start, ndvi_end,  'NDVI ANUAL · Sentinel-2 · Buffer 45 m', C['subhdr_ndvi']),
-        (COL_TEND, COL_MKP,     'TENDENCIA',       C['subhdr_tend']),
-        (inst_start, inst_end,  'INSTRUMENTOS DE MANEJO', C['subhdr_inst']),
-        (rest_start, rest_end,  'ACCIONES DE RESTAURACIÓN', C['subhdr_rest']),
+    # ── Filas 1-3: cabeceras ──────────────────────────────────────────────────
+    grupos = [
+        (COL_TRAMO, COL_ACC,   'IDENTIFICACIÓN',              C['header_bg']),
+        (ndvi_s,    ndvi_e,    'NDVI ANUAL · Sentinel-2 · Buffer 45 m', C['ndvi_hdr']),
+        (COL_TEND,  COL_MKP,   'TENDENCIA',                   C['tend_hdr']),
+        (inst_s,    inst_e,    'INSTRUMENTOS DE MANEJO',      C['inst_hdr']),
+        (rest_s,    rest_e,    'ACCIONES DE RESTAURACIÓN',    C['rest_hdr']),
     ]
-    for c1, c2, label, bg in grp:
-        ws.merge_cells(start_row=1, start_column=c1,
-                       end_row=1,   end_column=c2)
-        set_header_cell(ws, 1, c1, label, bg, size=10, bold=True)
+    for c1, c2, label, bg in grupos:
+        ws.merge_cells(start_row=1, start_column=c1, end_row=1, end_column=c2)
+        hdr(ws, 1, c1, label, bg, size=10, bold=True)
 
-    # ── Fila 2: Subgrupos para acciones (Acción / Año) ────────────────────────
-    # Celdas vacías del mismo color para filas 1-2 en otras secciones
-    for col in range(COL_TRAMO, TOTAL_COLS+1):
-        c = ws.cell(row=2, column=col)
-        c.border = thin_border()
-        c.alignment = align()
-    # Subgrupos de instrumentos (fila 2 = etiqueta de subgrupo)
+    # Fila 2: sub-grupos
+    for col in range(1, TOTAL+1):
+        c = ws.cell(row=2, column=col); c.border = border()
+        bg = C['header_bg']
+        if ndvi_s <= col <= ndvi_e: bg = C['ndvi_hdr']
+        elif COL_TEND <= col <= COL_MKP: bg = C['tend_hdr']
+        elif inst_s <= col <= inst_e: bg = C['inst_hdr']
+        elif rest_s <= col <= rest_e: bg = C['rest_hdr']
+        c.fill = fill(bg)
+
     for i, inst in enumerate(INSTRUMENTOS):
-        col = inst_start + i
-        set_header_cell(ws, 2, col, inst, C['subhdr_inst'], size=8, wrap=True)
-    # Subgrupos de acciones
-    for i, acc in enumerate(ACCIONES):
-        c1 = rest_start + i*2
-        ws.merge_cells(start_row=2, start_column=c1,
-                       end_row=2,   end_column=c1+1)
-        set_header_cell(ws, 2, c1, acc, C['subhdr_rest'], size=8, wrap=True)
-    # Última acción (Otras) tiene descripción extra → 3 cols
-    other_start = rest_start + (len(ACCIONES)-1)*2
-    ws.merge_cells(start_row=2, start_column=other_start,
-                   end_row=2,   end_column=other_start+2)
-    set_header_cell(ws, 2, other_start, 'Otras acciones', C['subhdr_rest'], size=8)
+        hdr(ws, 2, inst_s+i, inst, C['inst_hdr'], size=8, wrap=True)
 
-    # Rellenar filas 1-2 para columnas base e NDVI
-    for col in range(COL_TRAMO, ndvi_end+1):
-        for row in [1,2]:
-            c = ws.cell(row=row, column=col)
-            if not c.value:
-                bg = C['header_bg'] if col <= COL_ACC else C['subhdr_ndvi']
-                c.fill = fill(bg)
-                c.border = thin_border()
-    for col in range(COL_TEND, COL_MKP+1):
-        for row in [1,2]:
-            c = ws.cell(row=row, column=col)
-            if not c.value:
-                c.fill = fill(C['subhdr_tend'])
-                c.border = thin_border()
-
-    # ── Fila 3: Nombres de columna ────────────────────────────────────────────
-    headers_row3 = {
-        COL_TRAMO: 'Tramo',
-        COL_LARGO: 'Largo (m)',
-        COL_VUL:   'Vulnerabilidad',
-        COL_ACC:   'Accesibilidad',
-        COL_TEND:  'Tendencia',
-        COL_SLOPE: 'Slope Sen',
-        COL_MKP:   'MK p-val',
-    }
-    for col, label in headers_row3.items():
-        bg = C['header_bg'] if col <= COL_ACC else C['subhdr_tend']
-        if col >= ndvi_start and col <= ndvi_end:
-            bg = C['subhdr_ndvi']
-        set_header_cell(ws, 3, col, label, bg, size=9)
-    for i, yr in enumerate(NDVI_YEARS):
-        set_header_cell(ws, 3, ndvi_start+i, str(yr), C['subhdr_ndvi'], size=9)
-    for i in range(len(INSTRUMENTOS)):
-        set_header_cell(ws, 3, inst_start+i, 'Estado', C['subhdr_inst'], size=8)
     for i, acc in enumerate(ACCIONES[:-1]):
-        base = rest_start + i*2
-        set_header_cell(ws, 3, base,   'Realizada', C['subhdr_rest'], size=8)
-        set_header_cell(ws, 3, base+1, 'Año',       C['subhdr_rest'], size=8)
-    other_base = rest_start + (len(ACCIONES)-1)*2
-    set_header_cell(ws, 3, other_base,   'Realizada',   C['subhdr_rest'], size=8)
-    set_header_cell(ws, 3, other_base+1, 'Año',         C['subhdr_rest'], size=8)
-    set_header_cell(ws, 3, other_base+2, 'Descripción', C['subhdr_rest'], size=8)
+        c1 = rest_s + i*2
+        ws.merge_cells(start_row=2, start_column=c1, end_row=2, end_column=c1+1)
+        hdr(ws, 2, c1, acc, C['rest_hdr'], size=8, wrap=True)
+    ob = rest_s + (len(ACCIONES)-1)*2
+    ws.merge_cells(start_row=2, start_column=ob, end_row=2, end_column=ob+2)
+    hdr(ws, 2, ob, 'Otras acciones', C['rest_hdr'], size=8, wrap=True)
 
-    # ── Validaciones (DataValidation) ─────────────────────────────────────────
-    # Instrumentos
-    dv_inst = DataValidation(
-        type='list', formula1=f'"{INST_OPTS}"',
-        allow_blank=True, showErrorMessage=False
-    )
-    ws.add_data_validation(dv_inst)
-    # Acciones (Sí/No)
-    dv_acc = DataValidation(
-        type='list', formula1=f'"{ACCION_OPTS}"',
-        allow_blank=True, showErrorMessage=False
-    )
-    ws.add_data_validation(dv_acc)
-    # Año (número entre 2000 y 2035)
-    dv_year = DataValidation(
-        type='whole', operator='between',
-        formula1='2000', formula2='2035',
-        allow_blank=True, showErrorMessage=True,
-        errorTitle='Año inválido', error='Ingresá un año entre 2000 y 2035'
-    )
-    ws.add_data_validation(dv_year)
+    # Fila 3: nombres de columna
+    h3 = {
+        COL_TRAMO: ('Tramo', C['header_bg']),
+        COL_LARGO: ('Largo (m)', C['header_bg']),
+        COL_VUL:   ('Vulnerabilidad', C['header_bg']),
+        COL_ACC:   ('Acc. registradas', C['header_bg']),
+        COL_TEND:  ('Tendencia', C['tend_hdr']),
+        COL_SLOPE: ('Slope Sen', C['tend_hdr']),
+        COL_MKP:   ('MK p-val', C['tend_hdr']),
+    }
+    for col, (label, bg) in h3.items():
+        hdr(ws, 3, col, label, bg, size=9)
+    for i, yr in enumerate(NDVI_YEARS):
+        hdr(ws, 3, ndvi_s+i, str(yr), C['ndvi_hdr'], size=9)
+    for i in range(len(INSTRUMENTOS)):
+        hdr(ws, 3, inst_s+i, 'Estado', C['inst_hdr'], size=8)
+    for i in range(len(ACCIONES)-1):
+        base = rest_s + i*2
+        hdr(ws, 3, base,   'Realizada', C['rest_hdr'], size=8)
+        hdr(ws, 3, base+1, 'Año',       C['rest_hdr'], size=8)
+    hdr(ws, 3, ob,   'Realizada',   C['rest_hdr'], size=8)
+    hdr(ws, 3, ob+1, 'Año',         C['rest_hdr'], size=8)
+    hdr(ws, 3, ob+2, 'Descripción', C['rest_hdr'], size=8)
 
     # ── Datos ─────────────────────────────────────────────────────────────────
+    vul_bgs = {1: C['vul1_bg'], 2: C['vul2_bg'], 3: C['vul3_bg']}
+    vul_fgs = {1: '7B0000', 2: '5D4000', 3: '1B5E20'}
+
     for ridx, row_data in dept_df.iterrows():
-        excel_row = ridx + 4  # filas 1-3 = cabeceras
-        is_alt = ridx % 2 == 1
+        er = ridx + 4
+        row_bg = C['alt_row'] if ridx % 2 == 1 else C['white']
+        vul_val = int(row_data['v']) if pd.notna(row_data['v']) else 1
 
-        vul_val = int(row_data['v']) if not pd.isna(row_data['v']) else 1
-        vul_bg = {'Alta':'vul1_bg','Media':'vul2_bg','Baja':'vul3_bg'}
-        row_bg = C[f'vul{vul_val}_bg'] if not is_alt else C['alt_row']
-
-        def data_cell(col, value, fmt=None, bold=False, h='center'):
-            c = ws.cell(row=excel_row, column=col, value=value)
-            c.fill = fill(row_bg)
-            c.font = font(bold=bold, color='1A2636', size=9)
-            c.alignment = align(h=h, v='center')
-            c.border = thin_border()
+        def dc(col, value, fmt=None, h='center', bold=False, bg=None, fg=None):
+            c = ws.cell(row=er, column=col, value=value)
+            c.fill = fill(bg or row_bg)
+            c.font = Font(bold=bold, color=fg or '1A2636', size=9, name='Arial')
+            c.alignment = align(h=h, v='center'); c.border = border()
             if fmt: c.number_format = fmt
-            return c
 
-        # Base
-        data_cell(COL_TRAMO, int(row_data['t']), bold=True)
-        data_cell(COL_LARGO, int(row_data['l']), fmt='#,##0')
-        # Vulnerabilidad con color
-        vul_c = ws.cell(row=excel_row, column=COL_VUL,
-                        value=VUL_LABEL.get(vul_val, str(vul_val)))
-        vul_bg_colors = {1: C['vul1_bg'], 2: C['vul2_bg'], 3: C['vul3_bg']}
-        vul_fg_colors = {1: '7B0000', 2: '5D4000', 3: '1B5E20'}
-        vul_c.fill = fill(vul_bg_colors.get(vul_val, C['white']))
-        vul_c.font = font(bold=True, color=vul_fg_colors.get(vul_val,'000000'), size=9)
-        vul_c.alignment = align()
-        vul_c.border = thin_border()
+        dc(COL_TRAMO, int(row_data['t']), bold=True)
+        dc(COL_LARGO, int(row_data['l']), fmt='#,##0')
 
-        acc_val = int(row_data['a']) if not pd.isna(row_data['a']) else 0
-        data_cell(COL_ACC, ACC_LABEL.get(acc_val, str(acc_val)))
+        # Vulnerabilidad coloreada
+        vc = ws.cell(row=er, column=COL_VUL, value=VUL_LABEL.get(vul_val, str(vul_val)))
+        vc.fill = fill(vul_bgs.get(vul_val, C['white']))
+        vc.font = Font(bold=True, color=vul_fgs.get(vul_val,'000000'), size=9, name='Arial')
+        vc.alignment = align(); vc.border = border()
 
-        # NDVI por año con color de celda
+        acc_val = int(row_data['a']) if pd.notna(row_data['a']) else 0
+        dc(COL_ACC, acc_val)
+
+        # NDVI con color de celda
         for yi, yr in enumerate(NDVI_YEARS):
-            col = ndvi_start + yi
-            col_name = f'NDVI_{yr}'
-            val = row_data.get(col_name, None)
+            col = ndvi_s + yi
+            val = row_data.get(f'NDVI_{yr}', None)
             if pd.notna(val):
-                c = ws.cell(row=excel_row, column=col, value=round(float(val),4))
-                ndvi_bg = ndvi_color(float(val))
-                # Calcular si texto debe ser claro u oscuro
-                r_v = int(ndvi_bg[0:2],16)
-                g_v = int(ndvi_bg[2:4],16)
-                lum = 0.299*r_v + 0.587*g_v + 0.114*int(ndvi_bg[4:6],16)
-                fg_ndvi = 'FFFFFF' if lum < 128 else '1A2636'
-                c.fill = fill(ndvi_bg)
-                c.font = font(color=fg_ndvi, size=8)
-                c.alignment = align()
-                c.border = thin_border()
-                c.number_format = '0.0000'
+                v = float(val)
+                nb = ndvi_color(v)
+                lum = 0.299*int(nb[0:2],16) + 0.587*int(nb[2:4],16) + 0.114*int(nb[4:6],16)
+                fg_c = 'FFFFFF' if lum < 128 else '1A2636'
+                c = ws.cell(row=er, column=col, value=round(v,4))
+                c.fill = fill(nb); c.font = Font(color=fg_c, size=8, name='Arial')
+                c.alignment = align(); c.border = border(); c.number_format = '0.0000'
             else:
-                data_cell(col, None)
+                dc(col, None)
 
         # Tendencia
-        tend_val = str(row_data.get('tendencia','')).lower()
-        tend_bg = {'mejora': C['tend_mej'], 'estable': C['tend_est'],
-                   'degradacion': C['tend_deg']}.get(tend_val, C['white'])
-        tend_fg = {'mejora':'1B5E20','estable':'5D4000','degradacion':'7B0000'}.get(tend_val,'000000')
-        t_c = ws.cell(row=excel_row, column=COL_TEND, value=tend_val.capitalize())
-        t_c.fill = fill(tend_bg)
-        t_c.font = font(bold=True, color=tend_fg, size=9)
-        t_c.alignment = align()
-        t_c.border = thin_border()
+        tend = str(row_data.get('tendencia','')).lower()
+        t_bg = {'mejora':C['tend_mej'],'estable':C['tend_est'],'degradacion':C['tend_deg']}.get(tend,C['white'])
+        t_fg = {'mejora':'1B5E20','estable':'5D4000','degradacion':'7B0000'}.get(tend,'000000')
+        tc = ws.cell(row=er, column=COL_TEND, value=tend.capitalize())
+        tc.fill=fill(t_bg); tc.font=Font(bold=True,color=t_fg,size=9,name='Arial')
+        tc.alignment=align(); tc.border=border()
 
-        slope_val = row_data.get('sens_slope', None)
-        data_cell(COL_SLOPE, round(float(slope_val),6) if pd.notna(slope_val) else None,
-                  fmt='0.000000')
-        mkp_val = row_data.get('mk_p', None)
-        data_cell(COL_MKP, round(float(mkp_val),4) if pd.notna(mkp_val) else None,
-                  fmt='0.0000')
+        sl = row_data.get('sens_slope', None)
+        dc(COL_SLOPE, round(float(sl),6) if pd.notna(sl) else None, fmt='0.000000')
+        mkp = row_data.get('mk_p', None)
+        dc(COL_MKP, round(float(mkp),4) if pd.notna(mkp) else None, fmt='0.0000')
 
-        # Instrumentos (dropdown, celdas vacías editables)
+        # Instrumentos — celdas vacías (dropdown via validación de rango)
         for i in range(len(INSTRUMENTOS)):
-            col = inst_start + i
-            c = ws.cell(row=excel_row, column=col, value='No existe')
-            c.fill = fill(C['alt_row'] if is_alt else C['white'])
-            c.font = font(color='5A3E00', size=9)
-            c.alignment = align()
-            c.border = thin_border()
-            dv_inst.add(c)
+            col = inst_s + i
+            c = ws.cell(row=er, column=col, value=None)
+            c.fill = fill(C['alt_row'] if ridx%2==1 else C['white'])
+            c.font = Font(color='5A3E00', size=9, name='Arial')
+            c.alignment = align(); c.border = border()
 
-        # Acciones (dropdown Sí/No + año, celdas vacías)
-        for i, acc_name in enumerate(ACCIONES[:-1]):
-            base = rest_start + i*2
-            # Realizada
-            cr = ws.cell(row=excel_row, column=base, value='No')
-            cr.fill = fill(C['alt_row'] if is_alt else C['white'])
-            cr.font = font(color='3B1A5A', size=9)
-            cr.alignment = align()
-            cr.border = thin_border()
-            dv_acc.add(cr)
-            # Año
-            cy = ws.cell(row=excel_row, column=base+1, value=None)
-            cy.fill = fill(C['alt_row'] if is_alt else C['white'])
-            cy.font = font(color='3B1A5A', size=9)
-            cy.alignment = align()
-            cy.border = thin_border()
-            cy.number_format = '0'
-            dv_year.add(cy)
-        # Otras (Realizada + Año + Descripción)
-        ob = rest_start + (len(ACCIONES)-1)*2
-        for off, fmt_str in enumerate([None, '0', None]):
-            c = ws.cell(row=excel_row, column=ob+off, value='No' if off==0 else None)
-            c.fill = fill(C['alt_row'] if is_alt else C['white'])
-            c.font = font(color='3B1A5A', size=9)
-            c.alignment = align(h='left' if off==2 else 'center')
-            c.border = thin_border()
-            if fmt_str: c.number_format = fmt_str
-            if off == 0: dv_acc.add(c)
-            if off == 1: dv_year.add(c)
+        # Acciones — celdas vacías (dropdown via validación de rango)
+        for i in range(len(ACCIONES)-1):
+            base = rest_s + i*2
+            for off in range(2):
+                c = ws.cell(row=er, column=base+off, value=None)
+                c.fill = fill(C['alt_row'] if ridx%2==1 else C['white'])
+                c.font = Font(color='3B1A5A', size=9, name='Arial')
+                c.alignment = align(); c.border = border()
+        for off in range(3):
+            c = ws.cell(row=er, column=ob+off, value=None)
+            c.fill = fill(C['alt_row'] if ridx%2==1 else C['white'])
+            c.font = Font(color='3B1A5A', size=9, name='Arial')
+            c.alignment = align(h='left' if off==2 else 'center'); c.border = border()
+
+    # ── Data Validations sobre rangos de DATOS (filas 4 .. last_data_row) ────
+    # Instrumentos: una DV por columna
+    for i in range(len(INSTRUMENTOS)):
+        col_l = get_column_letter(inst_s + i)
+        dv = DataValidation(type='list', formula1=INST_OPTS, allow_blank=True,
+                            showErrorMessage=False)
+        dv.sqref = f'{col_l}4:{col_l}{last_data_row}'
+        ws.add_data_validation(dv)
+
+    # Acciones: DV para columnas "Realizada" y DV para columnas "Año"
+    for i in range(len(ACCIONES)-1):
+        base = rest_s + i*2
+        col_r = get_column_letter(base)
+        col_y = get_column_letter(base+1)
+        dv_r = DataValidation(type='list', formula1=ACCION_OPTS, allow_blank=True,
+                              showErrorMessage=False)
+        dv_r.sqref = f'{col_r}4:{col_r}{last_data_row}'
+        ws.add_data_validation(dv_r)
+        dv_y = DataValidation(type='list', formula1=YEAR_OPTS, allow_blank=True,
+                              showErrorMessage=False)
+        dv_y.sqref = f'{col_y}4:{col_y}{last_data_row}'
+        ws.add_data_validation(dv_y)
+
+    # Otras acciones (3 cols)
+    col_or = get_column_letter(ob)
+    col_oy = get_column_letter(ob+1)
+    dv_or = DataValidation(type='list', formula1=ACCION_OPTS, allow_blank=True,
+                           showErrorMessage=False)
+    dv_or.sqref = f'{col_or}4:{col_or}{last_data_row}'
+    ws.add_data_validation(dv_or)
+    dv_oy = DataValidation(type='list', formula1=YEAR_OPTS, allow_blank=True,
+                           showErrorMessage=False)
+    dv_oy.sqref = f'{col_oy}4:{col_oy}{last_data_row}'
+    ws.add_data_validation(dv_oy)
 
     # ── Anchos de columna ─────────────────────────────────────────────────────
-    ws.column_dimensions[get_column_letter(COL_TRAMO)].width = 7
-    ws.column_dimensions[get_column_letter(COL_LARGO)].width = 9
-    ws.column_dimensions[get_column_letter(COL_VUL)].width  = 13
-    ws.column_dimensions[get_column_letter(COL_ACC)].width  = 12
+    ws.column_dimensions[get_column_letter(COL_TRAMO)].width  = 7
+    ws.column_dimensions[get_column_letter(COL_LARGO)].width  = 9
+    ws.column_dimensions[get_column_letter(COL_VUL)].width    = 13
+    ws.column_dimensions[get_column_letter(COL_ACC)].width    = 14
     for i in range(len(NDVI_YEARS)):
-        ws.column_dimensions[get_column_letter(ndvi_start+i)].width = 8
-    ws.column_dimensions[get_column_letter(COL_TEND)].width  = 12
-    ws.column_dimensions[get_column_letter(COL_SLOPE)].width = 10
-    ws.column_dimensions[get_column_letter(COL_MKP)].width   = 9
+        ws.column_dimensions[get_column_letter(ndvi_s+i)].width = 8
+    ws.column_dimensions[get_column_letter(COL_TEND)].width   = 12
+    ws.column_dimensions[get_column_letter(COL_SLOPE)].width  = 10
+    ws.column_dimensions[get_column_letter(COL_MKP)].width    = 9
     for i in range(len(INSTRUMENTOS)):
-        ws.column_dimensions[get_column_letter(inst_start+i)].width = 16
+        ws.column_dimensions[get_column_letter(inst_s+i)].width = 17
     for i in range(len(ACCIONES)-1):
-        ws.column_dimensions[get_column_letter(rest_start+i*2)].width   = 12
-        ws.column_dimensions[get_column_letter(rest_start+i*2+1)].width = 7
-    ob = rest_start + (len(ACCIONES)-1)*2
-    ws.column_dimensions[get_column_letter(ob)].width   = 12
-    ws.column_dimensions[get_column_letter(ob+1)].width = 7
-    ws.column_dimensions[get_column_letter(ob+2)].width = 22
+        ws.column_dimensions[get_column_letter(rest_s+i*2)].width   = 13
+        ws.column_dimensions[get_column_letter(rest_s+i*2+1)].width = 8
+    ws.column_dimensions[get_column_letter(ob)].width   = 13
+    ws.column_dimensions[get_column_letter(ob+1)].width = 8
+    ws.column_dimensions[get_column_letter(ob+2)].width = 24
 
-    # Alturas de fila
     ws.row_dimensions[1].height = 22
-    ws.row_dimensions[2].height = 40
+    ws.row_dimensions[2].height = 42
     ws.row_dimensions[3].height = 18
-    for ridx in range(len(dept_df)):
-        ws.row_dimensions[ridx+4].height = 16
+    for i in range(n_data):
+        ws.row_dimensions[i+4].height = 16
 
-    # Auto-filtro desde fila 3
-    ws.auto_filter.ref = f'A3:{get_column_letter(TOTAL_COLS)}{len(dept_df)+3}'
-    ws.sheet_view.zoomScale = 90
+    ws.auto_filter.ref = f'A3:{get_column_letter(TOTAL)}{last_data_row}'
 
 # ── Hoja RESUMEN ──────────────────────────────────────────────────────────────
-ws_res = wb.create_sheet(title='Resumen', index=0)
-ws_res.sheet_view.zoomScale = 90
+ws_r = wb.create_sheet(title='Resumen', index=0)
+ws_r.sheet_view.zoomScale = 90
+ws_r.merge_cells('A1:H1')
+hdr(ws_r, 1, 1, 'KPI VEGETACIÓN COSTERA — RESUMEN POR DEPARTAMENTO',
+    C['header_bg'], size=13, bold=True)
+ws_r.row_dimensions[1].height = 30
 
-set_header_cell(ws_res, 1, 1, 'KPI VEGETACIÓN COSTERA — RESUMEN POR DEPARTAMENTO',
-                C['header_bg'], size=13, bold=True, wrap=False)
-ws_res.merge_cells('A1:H1')
-ws_res.row_dimensions[1].height = 30
+for j, h_txt in enumerate(['Departamento','Tramos','Vul. Alta','Vul. Media','Vul. Baja',
+                             'Mejora','Estable','Degradación'], 1):
+    hdr(ws_r, 2, j, h_txt, C['header_bg'], size=10)
 
-hdrs = ['Departamento','Tramos','Vul. Alta','Vul. Media','Vul. Baja',
-        'Mejora','Estable','Degradación']
-for j, h in enumerate(hdrs, 1):
-    set_header_cell(ws_res, 2, j, h, C['header_bg'], size=10)
-
-for ri, dept_key in enumerate(DEPTS, 1):
-    dept_df_s = df[df['d'] == dept_key]
-    row = ri + 2
-    is_alt = ri % 2 == 0
-    bg = C['alt_row'] if is_alt else C['white']
-    vals = [
-        DEPT_NAMES[dept_key],
-        len(dept_df_s),
-        int((dept_df_s['v']==1).sum()),
-        int((dept_df_s['v']==2).sum()),
-        int((dept_df_s['v']==3).sum()),
-        int((dept_df_s['tendencia']=='mejora').sum()),
-        int((dept_df_s['tendencia']=='estable').sum()),
-        int((dept_df_s['tendencia']=='degradacion').sum()),
-    ]
+for ri, dk in enumerate(DEPTS, 1):
+    dfs = df[df['d']==dk]
+    row = ri+2; bg = C['alt_row'] if ri%2==0 else C['white']
+    vals = [DEPT_NAMES[dk], len(dfs),
+            int((dfs['v']==1).sum()), int((dfs['v']==2).sum()), int((dfs['v']==3).sum()),
+            int((dfs['tendencia']=='mejora').sum()), int((dfs['tendencia']=='estable').sum()),
+            int((dfs['tendencia']=='degradacion').sum())]
     for j, val in enumerate(vals, 1):
-        c = ws_res.cell(row=row, column=j, value=val)
+        c = ws_r.cell(row=row, column=j, value=val)
         c.fill = fill(bg)
-        c.font = font(bold=(j==1), size=10)
-        c.alignment = align(h='left' if j==1 else 'center')
-        c.border = thin_border()
+        c.font = Font(bold=(j==1), size=10, name='Arial')
+        c.alignment = align(h='left' if j==1 else 'center'); c.border = border()
 
-# Totales
-tot_row = len(DEPTS) + 3
-set_header_cell(ws_res, tot_row, 1, 'TOTAL', C['header_bg'], size=10)
-for j in range(2, 9):
-    col_l = get_column_letter(j)
-    c = ws_res.cell(row=tot_row, column=j,
-                    value=f'=SUM({col_l}3:{col_l}{tot_row-1})')
+tot = len(DEPTS)+3
+hdr(ws_r, tot, 1, 'TOTAL', C['header_bg'], size=10)
+for j in range(2,9):
+    cl = get_column_letter(j)
+    c = ws_r.cell(row=tot, column=j, value=f'=SUM({cl}3:{cl}{tot-1})')
     c.fill = fill(C['header_bg'])
-    c.font = font(bold=True, color='EEE8DC', size=10)
-    c.alignment = align()
-    c.border = thin_border()
+    c.font = Font(bold=True, color='EEE8DC', size=10, name='Arial')
+    c.alignment = align(); c.border = border()
 
-for j in range(1, 9):
-    ws_res.column_dimensions[get_column_letter(j)].width = 18
-ws_res.column_dimensions['A'].width = 18
-ws_res.row_dimensions[1].height = 30
+for j in range(1,9):
+    ws_r.column_dimensions[get_column_letter(j)].width = 18
+ws_r.row_dimensions[1].height = 30
 
 # ── Guardar ───────────────────────────────────────────────────────────────────
-outpath = '/home/gaitapi/proyectos/kpi-ndvi-costera/data/KPI_Gestion_Costera.xlsx'
-wb.save(outpath)
-print(f'Guardado: {outpath}')
+out = '/home/gaitapi/proyectos/kpi-ndvi-costera/data/KPI_Gestion_Costera.xlsx'
+wb.save(out)
+print(f'OK: {out}')
 print(f'Hojas: {wb.sheetnames}')
