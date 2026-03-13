@@ -56,7 +56,7 @@ kpi-ndvi-costera/
 
 ## Clasificación de tramos
 
-Cada tramo tiene atributos de **departamento** (d), **vulnerabilidad** (v: 1=alta, 2=media, 3=baja) y **accesibilidad** (a), heredados de la zonificación de la DINABISE/DGCM.
+Cada tramo tiene atributos de **departamento** (d), **vulnerabilidad** (v: 1=alta, 2=media, 3=baja) y **acciones registradas** (a: cantidad de acciones de manejo registradas en la capa base), heredados de la zonificación de la DINABISE/DGCM.
 
 ---
 
