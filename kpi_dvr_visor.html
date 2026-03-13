@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPI DVR · Evolución dunar por tramo</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+:root{--bg:#07192e;--bg2:#0d2640;--bg3:#122f52;--sand:#c8a96e;--veg:#3d8b5e;--veg2:#6ab187;--red:#e05a2b;--text:#eeeae4;--dim:#7a8e9e;--bdr:rgba(200,169,110,0.18);--mono:'Space Mono',monospace;--sans:'Syne',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
+header{padding:1.2rem 2rem 1rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:1rem;flex-shrink:0}
+.hb{background:var(--veg);color:#fff;font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;padding:.25rem .5rem;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);border-radius:2px}
+.ht{font-size:clamp(1rem,2vw,1.5rem);font-weight:800;letter-spacing:-.02em;color:var(--sand);line-height:1.1}
+.hs{font-family:var(--mono);font-size:.6rem;color:var(--dim);margin-top:.2rem}
+.hm{margin-left:auto;font-family:var(--mono);font-size:.52rem;color:var(--dim);text-align:right;line-height:1.7}
+
+/* DROP ZONE */
+.dropzone{margin:2rem auto;width:100%;max-width:680px;border:2px dashed var(--bdr);border-radius:8px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2)}
+.dropzone:hover,.dropzone.drag{border-color:var(--sand);background:var(--bg3)}
+.dropzone .dicon{font-size:2.5rem;margin-bottom:.75rem}
+.dropzone .dtitle{font-size:1.1rem;font-weight:700;color:var(--sand);margin-bottom:.4rem}
+.dropzone .dsub{font-family:var(--mono);font-size:.62rem;color:var(--dim);line-height:1.7}
+.dropzone input{display:none}
+
+/* MAIN */
+.main{display:none;flex:1;display:none;flex-direction:column;gap:0}
+.main.show{display:flex}
+
+/* STATS BAR */
+.statsbar{background:var(--bg2);border-bottom:1px solid var(--bdr);padding:.8rem 1.5rem;display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:.1rem}
+.stat .sv{font-size:1.3rem;font-weight:800;color:var(--sand);letter-spacing:-.03em}
+.stat .sl{font-family:var(--mono);font-size:.55rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+.stat.good .sv{color:var(--veg2)}
+.stat.bad .sv{color:var(--red)}
+.sep{width:1px;height:2rem;background:var(--bdr);flex-shrink:0}
+
+/* FILTERS */
+.filters{background:var(--bg2);border-bottom:1px solid var(--bdr);padding:.7rem 1.5rem;display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.filters label{font-family:var(--mono);font-size:.6rem;color:var(--dim)}
+select.fsel{background:var(--bg3);border:1px solid var(--bdr);color:var(--text);font-family:var(--mono);font-size:.65rem;padding:.35rem .65rem;border-radius:3px;outline:none;cursor:pointer}
+select.fsel:focus{border-color:var(--sand)}
+select option{background:var(--bg)}
+.fbtn{background:transparent;border:1px solid var(--bdr);color:var(--sand);font-family:var(--mono);font-size:.6rem;padding:.35rem .75rem;border-radius:3px;cursor:pointer;transition:all .15s}
+.fbtn:hover{border-color:var(--sand);background:rgba(200,169,110,.08)}
+.fbtn.act{background:var(--veg);border-color:var(--veg);color:#fff}
+
+/* LAYOUT GRID */
+.grid{display:grid;grid-template-columns:1fr 380px;flex:1;min-height:0;overflow:hidden}
+
+/* TABLA */
+.table-wr{overflow:auto;border-right:1px solid var(--bdr)}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.62rem}
+thead th{background:var(--bg2);color:var(--sand);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem .75rem;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--bdr);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{background:var(--bg3)}
+thead th .sort{color:var(--dim);margin-left:.25rem}
+tbody tr{border-bottom:1px solid rgba(200,169,110,.08);transition:background .1s;cursor:pointer}
+tbody tr:hover{background:rgba(200,169,110,.06)}
+tbody tr.sel{background:rgba(61,139,94,.12);border-color:rgba(61,139,94,.3)}
+td{padding:.45rem .75rem;white-space:nowrap;color:var(--text)}
+td.dim{color:var(--dim)}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;padding:.1rem .4rem;border-radius:2px;font-size:.52rem;font-weight:700;letter-spacing:.05em}
+.v1{background:rgba(224,90,43,.2);color:#e05a2b}
+.v2{background:rgba(200,169,110,.2);color:#c8a96e}
+.v3{background:rgba(106,177,135,.2);color:#6ab187}
+.dvr-bar{display:flex;align-items:center;gap:.4rem}
+.dvr-num{width:48px;text-align:right}
+.bar-wr{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .3s}
+.trend-up{color:var(--veg2)}
+.trend-dn{color:var(--red)}
+.trend-eq{color:var(--dim)}
+
+/* SIDEBAR */
+.sidebar{overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:1rem;background:var(--bg)}
+.chart-wr{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1rem}
+.chart-title{font-family:var(--mono);font-size:.6rem;color:var(--sand);margin-bottom:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.chart-sub{font-family:var(--mono);font-size:.55rem;color:var(--dim);margin-top:.25rem}
+canvas{width:100%!important}
+.chart-line-wr{position:relative;height:200px}
+.no-sel{font-family:var(--mono);font-size:.65rem;color:var(--dim);text-align:center;padding:3rem 1rem;border:1px dashed var(--bdr);border-radius:6px;line-height:1.8}
+
+/* Mapa de tendencias (heatmap simplificado) */
+.heatmap-grid{display:grid;gap:2px;margin-top:.5rem}
+.hm-row{display:flex;gap:2px;align-items:center}
+.hm-label{font-family:var(--mono);font-size:.5rem;color:var(--dim);width:60px;flex-shrink:0;text-align:right;padding-right:.35rem}
+.hm-cell{flex:1;height:16px;border-radius:2px;position:relative;cursor:pointer}
+.hm-cell:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#0d2640;border:1px solid var(--bdr);padding:.2rem .4rem;border-radius:2px;font-family:var(--mono);font-size:.52rem;white-space:nowrap;color:var(--text);z-index:100;pointer-events:none}
+.hm-years{display:flex;gap:2px;margin-left:63px;margin-bottom:.2rem}
+.hm-year{flex:1;font-family:var(--mono);font-size:.5rem;color:var(--dim);text-align:center}
+
+/* Export */
+.export-row{display:flex;gap:.5rem;padding:.75rem 1.5rem;border-top:1px solid var(--bdr);background:var(--bg2);align-items:center}
+.export-row .info{font-family:var(--mono);font-size:.58rem;color:var(--dim);flex:1;line-height:1.5}
+.ebtn{background:var(--veg);color:#fff;border:none;font-family:var(--mono);font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1rem;border-radius:3px;cursor:pointer;transition:all .15s;flex-shrink:0}
+.ebtn:hover{background:var(--veg2)}
+.ebtn.sec{background:transparent;color:var(--sand);border:1px solid var(--bdr)}
+.ebtn.sec:hover{border-color:var(--sand)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hb">DVR</div>
+  <div>
+    <div class="ht">KPI Costa — Evolución dunar por tramo (2017–2024)</div>
+    <div class="hs">DVR (Dune Vegetation Ratio) mediano · Verano · Sentinel-2 · Buffer 90 m · 357 tramos</div>
+  </div>
+  <div class="hm">MINISTERIO DE AMBIENTE · URUGUAY<br>DINABISE / DGCM</div>
+</header>
+
+<!-- DROP ZONE -->
+<div class="dropzone" id="dz" onclick="document.getElementById('fileinput').click()"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="ed(event)">
+  <input type="file" id="fileinput" accept=".csv,.json" onchange="loadFile(this.files[0])">
+  <div class="dicon">📂</div>
+  <div class="dtitle">Cargar resultado de GEE</div>
+  <div class="dsub">
+    Arrastrá o hacé clic para seleccionar el CSV exportado desde GEE<br>
+    (<code>KPI_DVR_CostaUruguay_2017_2024.csv</code>)<br><br>
+    Columnas esperadas: <code>t · d · v · a · l · anio · DVR_median · NDVI_median</code>
+  </div>
+</div>
+
+<!-- MAIN (visible tras cargar) -->
+<div class="main" id="main">
+
+  <div class="statsbar" id="statsbar"></div>
+
+  <div class="filters">
+    <label>DPTO</label>
+    <select class="fsel" id="fDep" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option value="colonia">Colonia</option>
+      <option value="san jose">San José</option>
+      <option value="montevideo">Montevideo</option>
+      <option value="canelones">Canelones</option>
+      <option value="maldonado">Maldonado</option>
+      <option value="rocha">Rocha</option>
+    </select>
+    <label>VUL.</label>
+    <select class="fsel" id="fVul" onchange="applyFilters()">
+      <option value="">Todas</option>
+      <option value="1">Alta</option>
+      <option value="2">Media</option>
+      <option value="3">Baja</option>
+    </select>
+    <label>TENDENCIA</label>
+    <select class="fsel" id="fTrend" onchange="applyFilters()">
+      <option value="">Todas</option>
+      <option value="up">Mejora (↑)</option>
+      <option value="dn">Degradación (↓)</option>
+      <option value="eq">Estable (—)</option>
+    </select>
+    <label>AÑO BASE</label>
+    <select class="fsel" id="fBase" onchange="applyFilters()">
+      <option value="2017">2017</option>
+      <option value="2018">2018</option>
+      <option value="2019">2019</option>
+      <option value="2021">2021 (línea base KPI)</option>
+    </select>
+    <label>AÑO FINAL</label>
+    <select class="fsel" id="fFinal" onchange="applyFilters()">
+      <option value="2024">2024</option>
+      <option value="2023">2023</option>
+      <option value="2022">2022</option>
+    </select>
+    <button class="fbtn" onclick="resetFilters()">✕ Reset</button>
+  </div>
+
+  <div class="grid">
+    <!-- TABLA -->
+    <div class="table-wr">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortBy('t')">Tramo <span class="sort" id="s-t"></span></th>
+            <th onclick="sortBy('d')">Dpto <span class="sort" id="s-d"></span></th>
+            <th onclick="sortBy('v')">Vul. <span class="sort" id="s-v"></span></th>
+            <th onclick="sortBy('largo_km')">Largo <span class="sort" id="s-largo_km"></span></th>
+            <th onclick="sortBy('dvr_base')">DVR base <span class="sort" id="s-dvr_base"></span></th>
+            <th onclick="sortBy('dvr_final')">DVR final <span class="sort" id="s-dvr_final"></span></th>
+            <th onclick="sortBy('delta')">Δ DVR <span class="sort" id="s-delta"></span></th>
+            <th onclick="sortBy('dvr_2024')">2024 <span class="sort" id="s-dvr_2024"></span></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="no-sel" id="nosel">
+        ← Seleccioná un tramo<br>en la tabla para ver<br>su evolución temporal
+      </div>
+      <div id="charts" style="display:none">
+        <div class="chart-wr">
+          <div class="chart-title" id="ctitle">Evolución DVR</div>
+          <div class="chart-sub" id="csub"></div>
+          <div class="chart-line-wr"><canvas id="chartLine"></canvas></div>
+        </div>
+        <div class="chart-wr">
+          <div class="chart-title">Mapa de calor — DVR por año</div>
+          <div id="heatmap"></div>
+        </div>
+      </div>
+
+      <!-- Heatmap global filtrado -->
+      <div class="chart-wr">
+        <div class="chart-title">Distribución DVR · Tramos visibles</div>
+        <canvas id="chartDist" height="180"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="export-row">
+    <div class="info">
+      <strong style="color:var(--sand)">Exportar</strong> el subconjunto de tramos filtrado con todas las columnas DVR anuales
+    </div>
+    <button class="ebtn sec" onclick="exportJSON()">↓ JSON</button>
+    <button class="ebtn" onclick="exportCSV()">↓ CSV</button>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+var rawData = [];    // CSV original: una fila por tramo×año
+var tramosMap = {};  // {tramo_id: {meta, años: {2017: {dvr,ndvi,...}}}}
+var tramosFlat = []; // Array de objetos resumen por tramo
+var filtered = [];   // tramosFlat filtrado
+var selTramo = null;
+var sortCol = 'delta', sortAsc = false;
+var chartLine = null, chartDist = null;
+var ANOS = [2017,2018,2019,2020,2021,2022,2023,2024];
+
+var VUL_LABELS = {1:'Alta',2:'Media',3:'Baja'};
+var DEP_LABELS = {
+  'colonia':'Colonia','san jose':'San José','montevideo':'Montevideo',
+  'canelones':'Canelones','maldonado':'Maldonado','rocha':'Rocha'
+};
+
+// ============================================================
+// DRAG & DROP
+// ============================================================
+function ev(e){e.preventDefault();document.getElementById('dz').classList.add('drag');}
+function el(e){document.getElementById('dz').classList.remove('drag');}
+function ed(e){
+  e.preventDefault();el(e);
+  var f=e.dataTransfer.files[0];
+  if(f) loadFile(f);
+}
+function loadFile(f){
+  if(!f) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    parseData(ev.target.result, f.name);
+  };
+  reader.readAsText(f);
+}
+
+// ============================================================
+// PARSEO
+// ============================================================
+function parseData(text, fname) {
+  var rows;
+  if (fname.endsWith('.json')) {
+    var parsed = JSON.parse(text);
+    // GeoJSON o array
+    rows = Array.isArray(parsed) ? parsed :
+           (parsed.features ? parsed.features.map(function(f){return f.properties;}) : []);
+  } else {
+    var result = Papa.parse(text, {header:true, dynamicTyping:true, skipEmptyLines:true});
+    rows = result.data;
+  }
+  rawData = rows;
+  buildTramosMap();
+  buildTramosFlat();
+  applyFilters();
+  document.getElementById('dz').style.display = 'none';
+  document.getElementById('main').classList.add('show');
+}
+
+function buildTramosMap() {
+  tramosMap = {};
+  rawData.forEach(function(row) {
+    var tid = row.t !== undefined ? row.t : row.tramo;
+    if (tid === undefined) return;
+    tid = parseInt(tid);
+    if (!tramosMap[tid]) {
+      tramosMap[tid] = {
+        t: tid,
+        d: (row.d || row.dep || '').toString().toLowerCase().trim(),
+        v: parseInt(row.v || row.vul || 1),
+        a: parseInt(row.a || row.acc || 0),
+        l: parseFloat(row.l || row.largo || 0),
+        anos: {}
+      };
+    }
+    var anio = parseInt(row.anio);
+    tramosMap[tid].anos[anio] = {
+      dvr:   parseFloat(row.DVR_median),
+      ndvi:  parseFloat(row.NDVI_median),
+      ndssi: parseFloat(row.NDSSI_median),
+      dvr_sd: parseFloat(row.DVR_stdDev || 0),
+      n:     parseInt(row.DVR_count || 0)
+    };
+  });
+}
+
+function buildTramosFlat() {
+  tramosFlat = Object.values(tramosMap).map(function(tr) {
+    var base_anio = 2017, fin_anio = 2024;
+    var dvr_base  = tr.anos[base_anio] ? tr.anos[base_anio].dvr  : NaN;
+    var dvr_final = tr.anos[fin_anio]  ? tr.anos[fin_anio].dvr   : NaN;
+    var delta = (!isNaN(dvr_base) && !isNaN(dvr_final)) ? dvr_final - dvr_base : NaN;
+    // dvr valores de cada año
+    var row = Object.assign({}, tr, {
+      dvr_base: dvr_base,
+      dvr_final: dvr_final,
+      delta: delta,
+      dvr_2024: tr.anos[2024] ? tr.anos[2024].dvr : NaN,
+      largo_km: tr.l / 1000
+    });
+    return row;
+  });
+}
+
+// ============================================================
+// FILTROS
+// ============================================================
+function getBaseAnio(){ return parseInt(document.getElementById('fBase').value)||2017; }
+function getFinalAnio(){ return parseInt(document.getElementById('fFinal').value)||2024; }
+
+function applyFilters() {
+  var dep   = document.getElementById('fDep').value;
+  var vul   = document.getElementById('fVul').value;
+  var trend = document.getElementById('fTrend').value;
+  var base  = getBaseAnio();
+  var fin   = getFinalAnio();
+
+  filtered = tramosFlat.filter(function(tr) {
+    if (dep && tr.d !== dep) return false;
+    if (vul && tr.v !== parseInt(vul)) return false;
+    var dvr_b = tr.anos[base] ? tr.anos[base].dvr : NaN;
+    var dvr_f = tr.anos[fin]  ? tr.anos[fin].dvr  : NaN;
+    var d = (!isNaN(dvr_b) && !isNaN(dvr_f)) ? dvr_f - dvr_b : NaN;
+    tr._delta = d;
+    tr._dvr_base = dvr_b;
+    tr._dvr_final = dvr_f;
+    if (trend === 'up' && !(d > 0.02))  return false;
+    if (trend === 'dn' && !(d < -0.02)) return false;
+    if (trend === 'eq' && !(Math.abs(d||0) <= 0.02)) return false;
+    return true;
+  });
+
+  sortData();
+  renderStats();
+  renderTable();
+  renderDistChart();
+}
+
+function resetFilters() {
+  ['fDep','fVul','fTrend'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('fBase').value='2017';
+  document.getElementById('fFinal').value='2024';
+  applyFilters();
+}
+
+// ============================================================
+// SORT
+// ============================================================
+function sortBy(col) {
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { sortCol = col; sortAsc = false; }
+  sortData();
+  renderTable();
+}
+function sortData() {
+  filtered.sort(function(a,b) {
+    var av = a[sortCol] !== undefined ? a[sortCol] : a['_'+sortCol];
+    var bv = b[sortCol] !== undefined ? b[sortCol] : b['_'+sortCol];
+    if (isNaN(av)) av = -999;
+    if (isNaN(bv)) bv = -999;
+    return sortAsc ? av-bv : bv-av;
+  });
+}
+
+// ============================================================
+// STATS BAR
+// ============================================================
+function renderStats() {
+  var nMejora=0, nDegr=0, nEst=0, dvrSum=0, dvrN=0;
+  var fin = getFinalAnio();
+  filtered.forEach(function(tr) {
+    var d = tr._delta;
+    if (isNaN(d)) { nEst++; return; }
+    if (d > 0.02) nMejora++;
+    else if (d < -0.02) nDegr++;
+    else nEst++;
+    var dvrf = tr.anos[fin] ? tr.anos[fin].dvr : NaN;
+    if (!isNaN(dvrf)) { dvrSum+=dvrf; dvrN++; }
+  });
+  var dvrMean = dvrN>0 ? (dvrSum/dvrN).toFixed(3) : '-';
+  var total = filtered.length;
+  var pctMejora = total>0 ? Math.round(nMejora/total*100) : 0;
+  var base = getBaseAnio();
+
+  document.getElementById('statsbar').innerHTML =
+    stat(total,'Tramos filtrados') + sep() +
+    stat(nMejora+'<small style="font-size:.6em"> ('+pctMejora+'%)</small>','Mejora '+base+'→'+fin,'good') + sep() +
+    stat(nDegr,'Degradación','bad') + sep() +
+    stat(nEst,'Estable') + sep() +
+    stat(dvrMean,'DVR medio '+fin);
+}
+function stat(v,l,cls){return '<div class="stat'+(cls?' '+cls:'')+'"><div class="sv">'+v+'</div><div class="sl">'+l+'</div></div>';}
+function sep(){return '<div class="sep"></div>';}
+
+// ============================================================
+// TABLA
+// ============================================================
+function dvrColor(v) {
+  if (isNaN(v)) return '#4a5a6a';
+  var t = Math.max(-1,Math.min(1,v));
+  if (t > 0.3) return '#3d8b5e';
+  if (t > 0.1) return '#6ab187';
+  if (t > -0.1) return '#c8a96e';
+  return '#e05a2b';
+}
+function fmt(v,dec){ return isNaN(v)?'—':(v>=0?'+':'')+v.toFixed(dec||3); }
+function fmtN(v,dec){ return isNaN(v)?'—':v.toFixed(dec||3); }
+
+function renderTable() {
+  var tb = document.getElementById('tbody');
+  var base = getBaseAnio(), fin = getFinalAnio();
+  var html = '';
+  filtered.forEach(function(tr) {
+    var sel = selTramo && selTramo.t === tr.t;
+    var d = tr._delta, vb=tr._dvr_base, vf=tr._dvr_final;
+    var tIcon = isNaN(d)?'—': (d>0.02?'<span class="trend-up">↑</span>':d<-0.02?'<span class="trend-dn">↓</span>':'<span class="trend-eq">—</span>');
+    var dStr = isNaN(d)?'—':'<span class="'+(d>0.02?'trend-up':d<-0.02?'trend-dn':'trend-eq')+'">'+fmt(d)+'</span>';
+    var barW = Math.round(Math.max(0,Math.min(1,(vf+1)/2))*100);
+    var dep = DEP_LABELS[tr.d]||tr.d;
+    html += '<tr class="'+(sel?'sel':'')+'" onclick="selectTramo('+tr.t+')">' +
+      '<td class="num dim">'+(tr.t+1)+'</td>' +
+      '<td>'+dep+'</td>' +
+      '<td><span class="badge v'+tr.v+'">'+VUL_LABELS[tr.v]+'</span></td>' +
+      '<td class="num dim">'+(tr.largo_km||tr.l/1000).toFixed(1)+' km</td>' +
+      '<td class="num">'+fmtN(vb)+'</td>' +
+      '<td class="num"><div class="dvr-bar"><span class="dvr-num">'+fmtN(vf)+'</span><div class="bar-wr"><div class="bar-fill" style="width:'+barW+'%;background:'+dvrColor(vf)+'"></div></div></div></td>' +
+      '<td class="num">'+dStr+'</td>' +
+      '<td class="num">'+(tr.anos[fin]?fmtN(tr.anos[fin].dvr):'—')+'</td>' +
+      '</tr>';
+  });
+  tb.innerHTML = html;
+  // Sort icons
+  document.querySelectorAll('.sort').forEach(function(s){s.textContent='';});
+  var si = document.getElementById('s-'+(sortCol==='_delta'?'delta':sortCol));
+  if(si) si.textContent = sortAsc?'↑':'↓';
+}
+
+// ============================================================
+// SELECCIÓN Y GRÁFICO
+// ============================================================
+function selectTramo(tid) {
+  selTramo = tramosMap[tid];
+  renderTable();
+  renderLineChart();
+  document.getElementById('nosel').style.display='none';
+  document.getElementById('charts').style.display='block';
+}
+
+var ANOS_LABELS = ANOS.map(String);
+var CHART_COLORS = {
+  dvr:  '#6ab187',
+  ndvi: '#c8a96e',
+  grid: 'rgba(200,169,110,0.1)',
+  txt:  '#7a8e9e'
+};
+
+function renderLineChart() {
+  var tr = selTramo;
+  if (!tr) return;
+  var dvrVals  = ANOS.map(function(a){ return tr.anos[a] ? tr.anos[a].dvr  : null; });
+  var ndviVals = ANOS.map(function(a){ return tr.anos[a] ? tr.anos[a].ndvi : null; });
+  var sdVals   = ANOS.map(function(a){ return tr.anos[a] ? tr.anos[a].dvr_sd : null; });
+
+  document.getElementById('ctitle').textContent = 'Tramo '+(tr.t+1)+' — '+(DEP_LABELS[tr.d]||tr.d);
+  document.getElementById('csub').textContent   = 'Vulnerabilidad: '+(VUL_LABELS[tr.v]||tr.v)+' · Largo: '+(tr.l/1000).toFixed(1)+' km';
+
+  var ctx = document.getElementById('chartLine').getContext('2d');
+  if (chartLine) chartLine.destroy();
+  chartLine = new Chart(ctx, {
+    data: {
+      labels: ANOS_LABELS,
+      datasets: [
+        {
+          type:'line', label:'DVR (duna veg.)', data:dvrVals,
+          borderColor:CHART_COLORS.dvr, backgroundColor:'rgba(106,177,135,.12)',
+          tension:.35, pointRadius:5, pointHoverRadius:7, fill:true, yAxisID:'y'
+        },
+        {
+          type:'line', label:'NDVI', data:ndviVals,
+          borderColor:CHART_COLORS.ndvi, backgroundColor:'transparent',
+          tension:.35, pointRadius:4, borderDash:[5,3], yAxisID:'y'
+        }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{labels:{color:CHART_COLORS.txt, font:{family:'Space Mono',size:11}, boxWidth:14}},
+        tooltip:{
+          backgroundColor:'#0d2640',
+          borderColor:'rgba(200,169,110,.3)',
+          borderWidth:1,
+          titleColor:'#c8a96e',
+          bodyColor:'#eeeae4',
+          bodyFont:{family:'Space Mono',size:11}
+        }
+      },
+      scales:{
+        x:{ticks:{color:CHART_COLORS.txt,font:{family:'Space Mono',size:10}}, grid:{color:CHART_COLORS.grid}},
+        y:{
+          ticks:{color:CHART_COLORS.txt,font:{family:'Space Mono',size:10}},
+          grid:{color:CHART_COLORS.grid},
+          min:-0.6, max:0.8,
+          title:{display:true,text:'DVR / NDVI',color:CHART_COLORS.txt,font:{size:10}}
+        }
+      }
+    }
+  });
+
+  // Heatmap del tramo (una fila, años como columnas)
+  renderHeatmapSingle(tr);
+}
+
+function renderHeatmapSingle(tr) {
+  var hm = document.getElementById('heatmap');
+  var html = '<div class="hm-years">';
+  ANOS.forEach(function(a){ html += '<div class="hm-year">'+a+'</div>'; });
+  html += '</div><div class="hm-row"><div class="hm-label">DVR</div>';
+  ANOS.forEach(function(a) {
+    var v = tr.anos[a] ? tr.anos[a].dvr : null;
+    var bg = v===null ? '#1a2d40' : dvrColor(v);
+    var tip = v===null ? a+': sin dato' : a+': '+v.toFixed(3);
+    html += '<div class="hm-cell" style="background:'+bg+'" data-tip="'+tip+'"></div>';
+  });
+  html += '</div>';
+  hm.innerHTML = html;
+}
+
+// ============================================================
+// GRÁFICO DISTRIBUCIÓN (sidebar inferior)
+// ============================================================
+function renderDistChart() {
+  var fin = getFinalAnio();
+  var vals = filtered.map(function(tr){ return tr.anos[fin]?tr.anos[fin].dvr:null; })
+                     .filter(function(v){ return v!==null && !isNaN(v); });
+
+  // Bins de -0.8 a +0.8 en pasos de 0.1
+  var bins=[], labels=[];
+  for(var b=-0.8;b<0.8;b+=0.1){
+    bins.push(0); labels.push(b.toFixed(1));
+  }
+  vals.forEach(function(v){
+    var i = Math.min(Math.floor((v+0.8)/0.1), bins.length-1);
+    if(i>=0) bins[i]++;
+  });
+  var colors = bins.map(function(_,i){
+    var midVal = -0.8 + i*0.1 + 0.05;
+    return dvrColor(midVal);
+  });
+
+  var ctx = document.getElementById('chartDist').getContext('2d');
+  if (chartDist) chartDist.destroy();
+  chartDist = new Chart(ctx, {
+    type:'bar',
+    data:{labels:labels, datasets:[{data:bins, backgroundColor:colors, borderRadius:2}]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{
+        backgroundColor:'#0d2640', borderColor:'rgba(200,169,110,.3)', borderWidth:1,
+        titleColor:'#c8a96e', bodyColor:'#eeeae4',
+        callbacks:{label:function(c){return 'Tramos: '+c.raw;}}
+      }},
+      scales:{
+        x:{ticks:{color:CHART_COLORS.txt,font:{family:'Space Mono',size:9},maxRotation:0},
+           grid:{display:false},
+           title:{display:true,text:'DVR verano '+fin,color:CHART_COLORS.txt,font:{size:9}}},
+        y:{ticks:{color:CHART_COLORS.txt,font:{family:'Space Mono',size:9}},
+           grid:{color:CHART_COLORS.grid},
+           title:{display:true,text:'N tramos',color:CHART_COLORS.txt,font:{size:9}}}
+      }
+    }
+  });
+}
+
+// ============================================================
+// EXPORTAR
+// ============================================================
+function exportCSV() {
+  var fin = getFinalAnio(), base = getBaseAnio();
+  var header = 'tramo,departamento,vulnerabilidad,acciones,largo_km';
+  ANOS.forEach(function(a){ header += ',DVR_'+a+',NDVI_'+a; });
+  header += ',delta_DVR_'+base+'_'+fin+'\n';
+  var rows = filtered.map(function(tr) {
+    var row = (tr.t+1)+','+(DEP_LABELS[tr.d]||tr.d)+','+tr.v+','+tr.a+','+(tr.l/1000).toFixed(2);
+    ANOS.forEach(function(a){
+      row += ','+(tr.anos[a]?tr.anos[a].dvr.toFixed(4):'');
+      row += ','+(tr.anos[a]?tr.anos[a].ndvi.toFixed(4):'');
+    });
+    row += ','+(isNaN(tr._delta)?'':tr._delta.toFixed(4));
+    return row;
+  });
+  download('KPI_DVR_filtrado.csv', header + rows.join('\n'), 'text/csv');
+}
+
+function exportJSON() {
+  var fin = getFinalAnio(), base = getBaseAnio();
+  var out = filtered.map(function(tr) {
+    var obj = {
+      tramo: tr.t+1, departamento: DEP_LABELS[tr.d]||tr.d,
+      vulnerabilidad: tr.v, acciones: tr.a, largo_km: tr.l/1000,
+      delta_DVR: isNaN(tr._delta)?null:parseFloat(tr._delta.toFixed(4)),
+      tendencia: isNaN(tr._delta)?'sin_dato':tr._delta>0.02?'mejora':tr._delta<-0.02?'degradacion':'estable',
+      series: {}
+    };
+    ANOS.forEach(function(a){
+      if(tr.anos[a]) obj.series[a]={
+        DVR: parseFloat(tr.anos[a].dvr.toFixed(4)),
+        NDVI: parseFloat(tr.anos[a].ndvi.toFixed(4)),
+        NDSSI: parseFloat(tr.anos[a].ndssi.toFixed(4)),
+        n_pixeles: tr.anos[a].n
+      };
+    });
+    return obj;
+  });
+  download('KPI_DVR_filtrado.json', JSON.stringify(out, null, 2), 'application/json');
+}
+
+function download(name, content, type) {
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content],{type:type}));
+  a.download = name; a.click();
+}
+</script>
+</body>
+</html>
